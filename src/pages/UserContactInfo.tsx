@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NewCustomer } from '../models/Customer';
 
 
-const BookingPage = () => {
+const UserContactInfo = () => {
 
   const [currentCapacity, setCurrentCapacity] = useState()
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
@@ -59,4 +59,4 @@ const BookingPage = () => {
   )
 }
 
-export default BookingPage
+export default UserContactInfo

@@ -7,7 +7,6 @@ export class NewCustomer {
     ) {}
 };
 
-
 export interface Customer {
     name: string;
     lastname: string;
