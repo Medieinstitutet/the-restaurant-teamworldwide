@@ -5,7 +5,6 @@ import "../styles/main.scss"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
-
 const Layout = () => {
     return (
         <div>
