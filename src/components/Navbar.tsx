@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
 
 const Navbar = () => {

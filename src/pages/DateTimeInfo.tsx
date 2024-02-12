@@ -21,8 +21,8 @@ const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null)
     const [sixBooked, setSixBooked] = useState(false)
     const [nineBooked, setNineBooked] = useState(false)
-    const [numberOfBookingsOnSelectedDate18, setNumberOfBookingsOnSelectedDate18] = useState(0)
-    const [numberOfBookingsOnSelectedDate21, setNumberOfBookingsOnSelectedDate21] = useState(0)
+    const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
+    const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -44,10 +44,8 @@ const DateTimeInfo = () => {
                 else if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "21:00")) 
                 {currentBookingsOnSelectedDateAt21.push(booking)}
             })
-            console.log("list of dates that match at 18 is " + currentBookingsOnSelectedDateAt18.length)
-            console.log("list of dates that match at 21 is " + currentBookingsOnSelectedDateAt21.length)
-            setNumberOfBookingsOnSelectedDate18(currentBookingsOnSelectedDateAt18.length)
-            setNumberOfBookingsOnSelectedDate21(currentBookingsOnSelectedDateAt21.length)
+            if(currentBookingsOnSelectedDateAt18.length>16) setFullyBooked18OnSelectedDate(true)
+            if(currentBookingsOnSelectedDateAt21.length>16) setFullyBooked21OnSelectedDate(true)
         }
         fetchAllBookings()
         console.log(selectedDataFormatted)
@@ -65,8 +63,8 @@ const DateTimeInfo = () => {
                     onChange={(newValue) => setSelectedDate(newValue)}
                 />
             </div>
-            <div>{numberOfBookingsOnSelectedDate18 > 16 ? "the restaurant is fully booked that day at 18" : "we have room for you at 18"}</div>
-            <div>{numberOfBookingsOnSelectedDate21 > 16 ? "the restaurant is fully booked that day at 21" : "we have room for you at 21"}</div>
+            <div>{fullyBooked18OnSelectedDate && "the restaurant is fully booked that day at 18"}</div>
+            <div>{fullyBooked21OnSelectedDate && "the restaurant is fully booked that day at 21"}</div>
 
 
             <div className='flex justify-center space-x-8'>
