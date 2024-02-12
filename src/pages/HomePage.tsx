@@ -1,6 +1,5 @@
 import React from 'react'
 import HeroHeader from '../components/HeroHeader'
-import { Link } from 'react-router-dom'
 
 const HomePage = () => {
     return (
@@ -9,7 +8,7 @@ const HomePage = () => {
                 <div className="max-w-lg">
                     <HeroHeader />
                     <button className="btn btn-primary mt-8">Get Started</button>
-                    <Link to={"/booking"}><button className="btn btn-secondary mx-4">Book</button></Link>
+                    <button className="btn btn-secondary mx-4">Book</button>                   
                 </div>
             </div>
         </div>
