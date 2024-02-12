@@ -52,6 +52,17 @@ const DateTimeInfo = () => {
 
     }, [selectedDate])
 
+        const handleBookSix = () => {
+            setSixBooked((prev) => !prev)
+            setNineBooked(false)
+        }
+
+        const handleBookNine = () => {
+            setNineBooked((prev) => !prev)
+            setSixBooked(false)
+        }
+
+
 
 
     return (
@@ -68,9 +79,8 @@ const DateTimeInfo = () => {
 
 
             <div className='flex justify-center space-x-8'>
-                <button onClick={() => setSixBooked(!sixBooked)} className="btn btn-ghost text-xl bg-slate-300">{sixBooked ? "cancel six o clock" : "choose six o clock"}</button>
-
-                <button onClick={() => setNineBooked(!nineBooked)} className="btn btn-ghost text-xl bg-slate-300">{nineBooked ? "cancel nine o clock" : "choose nine o clock"}</button>
+                <button disabled={fullyBooked18OnSelectedDate} onClick={() => handleBookSix()} className="btn btn-ghost text-xl bg-slate-300">{sixBooked ? "cancel six o clock" : "choose six o clock"}</button>
+                <button disabled={fullyBooked21OnSelectedDate} onClick={() => handleBookNine()} className="btn btn-ghost text-xl bg-slate-300">{nineBooked ? "cancel nine o clock" : "choose nine o clock"}</button>
             </div>
 
             <form /* onSubmit={}  */ action="">
