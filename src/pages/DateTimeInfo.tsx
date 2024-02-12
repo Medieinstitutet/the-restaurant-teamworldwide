@@ -82,6 +82,7 @@ const DateTimeInfo = () => {
                 <button disabled={fullyBooked18OnSelectedDate} onClick={() => handleBookSix()} className="btn btn-ghost text-xl bg-slate-300">{sixBooked ? "cancel six o clock" : "choose six o clock"}</button>
                 <button disabled={fullyBooked21OnSelectedDate} onClick={() => handleBookNine()} className="btn btn-ghost text-xl bg-slate-300">{nineBooked ? "cancel nine o clock" : "choose nine o clock"}</button>
             </div>
+            
 
             <form /* onSubmit={}  */ action="">
 
