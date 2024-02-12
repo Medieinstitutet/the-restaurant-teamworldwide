@@ -5,12 +5,14 @@ import {
 import Layout from "../Layout/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
-import BookingPage from "../pages/BookingPage";
 import AdminPage from "../pages/AdminPage";
 import ContactPage from "../pages/ContactPage";
 import GalleryPage from "../pages/GalleryPage";
 import AuthRoute from "../components/AuthRoute";
 import Login from "../pages/Login";
+import DateTimeInfo from "../pages/DateTimeInfo";
+import UserContactInfo from "../pages/UserContactInfo";
+
 
 export const router = createBrowserRouter([
   {
@@ -25,8 +27,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "/booking",
-        element: <BookingPage />,
+        element: <DateTimeInfo />,
       },
+      {
+        path: "/contactinfo",
+        element: <UserContactInfo />,
+    },
       {
         path: "/contact",
         element: <ContactPage />

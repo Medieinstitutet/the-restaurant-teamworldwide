@@ -1,5 +1,10 @@
+
 import React, { useState, useEffect } from 'react'
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
+
+import React from 'react'
+import { Link } from 'react-router-dom'
+
 
 const Navbar = () => {
     const [displayLogout, setDisplayLogout] = useState(false)
@@ -33,7 +38,7 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="navbar-center">
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <Link to={"/"} className="btn btn-ghost text-xl bg-slate-300">Bleu horizon</Link>
             </div>
             {displayLogout &&
                 <div className="navbar-center">

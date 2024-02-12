@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { Router, RouterProvider } from 'react-router'
+import { RouterProvider } from 'react-router'
 import { router } from './Router/Router.tsx'
 import { initializeApp } from "firebase/app";
 import { config } from './config/config.ts'
