@@ -3,13 +3,14 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import Layout from "../Layout/Layout";
-
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import BookingPage from "../pages/BookingPage";
 import AdminPage from "../pages/AdminPage";
 import ContactPage from "../pages/ContactPage";
 import GalleryPage from "../pages/GalleryPage";
+import AuthRoute from "../components/AuthRoute";
+import Login from "../pages/Login";
 
 export const router = createBrowserRouter([
   {
@@ -32,7 +33,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <AdminPage />
+        element:
+          <AuthRoute>
+            <AdminPage />
+          </AuthRoute>
+      },
+      {
+        path: "/login",
+        element: <Login />
       },
       {
         path: "/gallery",
