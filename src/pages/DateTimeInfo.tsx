@@ -21,7 +21,8 @@ const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null)
     const [sixBooked, setSixBooked] = useState(false)
     const [nineBooked, setNineBooked] = useState(false)
-    const [numberOfBookingsOnSelectedDate, setNumberOfBookingsOnSelectedDate] = useState(0)
+    const [numberOfBookingsOnSelectedDate18, setNumberOfBookingsOnSelectedDate18] = useState(0)
+    const [numberOfBookingsOnSelectedDate21, setNumberOfBookingsOnSelectedDate21] = useState(0)
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -29,19 +30,27 @@ const DateTimeInfo = () => {
     }
 
     useEffect(() => {
-        const dateIsoString = selectedDate?.toISOString()
-        const formattedDate = dayjs(dateIsoString).format('YYYY-MM-DD');
+        const selecteDateIsoString = selectedDate?.toISOString()
+        const selectedDataFormatted = dayjs(selecteDateIsoString).format('YYYY-MM-DD');
         const fetchAllBookings = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
-            const listOfDates= []
-            allBookings.map((booking) => { if (booking.date.toString() === formattedDate) listOfDates.push(booking) })
-            console.log("list of dates that match" + listOfDates.length)
-
-            setNumberOfBookingsOnSelectedDate(listOfDates.length)
+            console.log(allBookings)
+            const currentBookingsOnSelectedDateAt18= []
+            const currentBookingsOnSelectedDateAt21= []
+            allBookings.map((booking) => { 
+                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) 
+                {currentBookingsOnSelectedDateAt18.push(booking)} 
+                else if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "21:00")) 
+                {currentBookingsOnSelectedDateAt21.push(booking)}
+            })
+            console.log("list of dates that match at 18 is " + currentBookingsOnSelectedDateAt18.length)
+            console.log("list of dates that match at 21 is " + currentBookingsOnSelectedDateAt21.length)
+            setNumberOfBookingsOnSelectedDate18(currentBookingsOnSelectedDateAt18.length)
+            setNumberOfBookingsOnSelectedDate21(currentBookingsOnSelectedDateAt21.length)
         }
         fetchAllBookings()
-        console.log(formattedDate)
+        console.log(selectedDataFormatted)
 
     }, [selectedDate])
 
@@ -56,7 +65,9 @@ const DateTimeInfo = () => {
                     onChange={(newValue) => setSelectedDate(newValue)}
                 />
             </div>
-            <div>{numberOfBookingsOnSelectedDate > 16 ? "the restaurant is fully booked that day" : "we have room for you"}</div>
+            <div>{numberOfBookingsOnSelectedDate18 > 16 ? "the restaurant is fully booked that day at 18" : "we have room for you at 18"}</div>
+            <div>{numberOfBookingsOnSelectedDate21 > 16 ? "the restaurant is fully booked that day at 21" : "we have room for you at 21"}</div>
+
 
             <div className='flex justify-center space-x-8'>
                 <button onClick={() => setSixBooked(!sixBooked)} className="btn btn-ghost text-xl bg-slate-300">{sixBooked ? "cancel six o clock" : "choose six o clock"}</button>
