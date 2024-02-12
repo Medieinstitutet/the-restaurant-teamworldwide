@@ -3,9 +3,9 @@ import { Navigate, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
+import { listClasses } from '@mui/material';
 
 
 interface IRecievedBookings {
@@ -34,14 +34,15 @@ const DateTimeInfo = () => {
         const fetchAllBookings = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
-            console.log(allBookings)
-            const listOfDates = []
+            const listOfDates= []
             allBookings.map((booking) => { if (booking.date.toString() === formattedDate) listOfDates.push(booking) })
             console.log("list of dates that match" + listOfDates.length)
+
             setNumberOfBookingsOnSelectedDate(listOfDates.length)
         }
         fetchAllBookings()
         console.log(formattedDate)
+
     }, [selectedDate])
 
 
