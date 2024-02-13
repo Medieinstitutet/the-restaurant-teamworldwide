@@ -30,25 +30,29 @@ const DateTimeInfo = () => {
     }
 
     useEffect(() => {
+        //changing the date we get to a string from the user input
         const selecteDateIsoString = selectedDate?.toISOString()
+        //making the string the right format for the API request
         setSelectedDataFormatted(dayjs(selecteDateIsoString).format('YYYY-MM-DD'));
+
         const fetchAllBookings = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
-            console.log(allBookings)
-            const currentBookingsOnSelectedDateAt18 = []
-            const currentBookingsOnSelectedDateAt21 = []
+
             allBookings.map((booking) => {
                 if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { currentBookingsOnSelectedDateAt18.push(booking) }
                 else if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "21:00")) { currentBookingsOnSelectedDateAt21.push(booking) }
             })
+            const currentBookingsOnSelectedDateAt18 = []
+            const currentBookingsOnSelectedDateAt21 = []
+            console.log("current bookings at 18" + currentBookingsOnSelectedDateAt18.length + "current bookings at 21" + currentBookingsOnSelectedDateAt21.length)
             if (currentBookingsOnSelectedDateAt18.length > 16) setFullyBooked18OnSelectedDate(true)
             if (currentBookingsOnSelectedDateAt21.length > 16) setFullyBooked21OnSelectedDate(true)
+            console.log(currentBookingsOnSelectedDateAt21.length)
         }
-        fetchAllBookings()
-        console.log(selectedDataFormatted)
-
+        if (selectedDataFormatted) fetchAllBookings()
     }, [selectedDate])
+
 
     useEffect(() => {
         if (!nineSelected) setTimeBooked("18:00")
@@ -77,9 +81,12 @@ const DateTimeInfo = () => {
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
                     <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
                     <div className='flex justify-center space-x-8 mt-20 pt-24 text-white'>
+
                         <button onClick={() => handleBookSix()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>
-                        <button onClick={() => handleBookNine()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
+                        <button disabled={fullyBooked21OnSelectedDate} onClick={() => handleBookNine()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
                     </div>
+                    <h1 className='text-white'>{fullyBooked18OnSelectedDate && "fully booked at 18"}</h1>
+                    <h1>{fullyBooked21OnSelectedDate && "fully booked at 21"}</h1>
                 </div>
 
                 <div className=' bg-white pt-24 lg:w-[70%] sm:[h-100%] pl-20'>
@@ -90,8 +97,8 @@ const DateTimeInfo = () => {
                     />
                     <div>
                         <select className="select select-bordered w-full max-w-xs font">
-                            <option disabled selected>How many poeple will be joining us?</option>
-                            <option>One</option>
+                            <option disabled>How many poeple will be joining us?</option>
+                            <option value="One">One</option>
                             <option>Two</option>
                             <option>Three</option>
                             <option>Four</option>

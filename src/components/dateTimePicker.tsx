@@ -1,5 +1,5 @@
 
-    import { Dayjs } from 'dayjs';
+    import dayjs, { Dayjs } from 'dayjs';
     import Box from '@mui/material/Box';
     import List from '@mui/material/List';
     import ListItem from '@mui/material/ListItem';
@@ -87,7 +87,7 @@
 
     interface IAddComponent {
         selectedDate: Dayjs | null
-        onChange: (newDate: any) => void
+        onChange: (newDate: Dayjs | null) => void
     }
 
     export default function AddComponent({selectedDate, onChange}: IAddComponent) {

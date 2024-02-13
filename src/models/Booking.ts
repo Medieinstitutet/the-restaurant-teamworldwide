@@ -3,7 +3,7 @@ export class NewBooking {
         public restaurantId: string,
         public date: string,
         public time: string,
-        public numberOfGuests: string,
+        public numberOfGuests: number,
         public customer: {
             name: string,
             lastname: string,
@@ -12,4 +12,5 @@ export class NewBooking {
         }
     ) { }
 }
+
 
