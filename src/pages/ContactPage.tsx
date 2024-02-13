@@ -2,7 +2,11 @@ import React from 'react'
 
 const ContactPage = () => {
   return (
-    <div>Contact</div>
+    <div className=''>
+      <form action="">
+        <input type="text" />
+      </form>
+    </div>
   )
 }
 
