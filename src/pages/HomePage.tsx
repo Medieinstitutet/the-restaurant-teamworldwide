@@ -1,8 +1,12 @@
 import { Hero } from '../components/Hero'
+import { Menu } from '../components/Menu'
 
 const HomePage = () => {
     return (
-        <Hero />
+        <>
+            <Hero />
+            <Menu />
+        </>
     )
 }
 

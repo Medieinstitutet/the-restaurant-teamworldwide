@@ -3,7 +3,7 @@ import HeroHeader from "./HeroHeader"
 
 export const Hero = () => {
     return (
-        <div className="hero min-h-screen bg-accent">
+        <div className="hero min-h-screen">
             <video autoPlay loop muted playsInline>
                 <source src='src/assets/video.mp4' type='video/mp4'/>
             </video>
