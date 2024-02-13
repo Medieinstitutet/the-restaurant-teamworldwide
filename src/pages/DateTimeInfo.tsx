@@ -71,47 +71,44 @@ const DateTimeInfo = () => {
 
     return (
         <>
-            <div className="w-100% bg-primary h-screen flex">
-                <div className='bg-black h-[100%] w-[30%] pt-32 text-secondary'>
+            <div className="w-100% bg-primary h-screen lg:flex sm:flex-row">
+                <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
                     <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
                     <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
                     <div className='flex justify-center space-x-8 mt-20 pt-24 text-white'>
-                        <button disabled={fullyBooked18OnSelectedDate} onClick={() => handleBookSix()} className="text-white btn text-l [w-40%] bg-primary">Six o clock</button>
-                        <button disabled={fullyBooked21OnSelectedDate} onClick={() => handleBookNine()} className="text-white btn text-l [w-40%] bg-primary">Nine o clock</button>
+                        <button onClick={() => handleBookSix()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>
+                        <button onClick={() => handleBookNine()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
                     </div>
                 </div>
-                <div className=' bg-white pt-40 w-[70%] pl-20'>
 
+                <div className=' bg-white pt-24 lg:w-[70%] sm:[h-100%] pl-20'>
+                    <h1>Booking at bleu</h1>
                     <AddComponent
                         selectedDate={selectedDate}
                         onChange={(newDate) => setSelectedDate(newDate)}
                     />
-                    <div className='w-100'>
-                    <input type="range" min={0} max="100" value="25" className="range" step="25" />
-                    <div className="w-[50] flex justify-between text-xs px-2">
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                        <span>|</span>
-                    </div>
-                    </div>
-                    <div className='flex justify-center items-center space-x-4'>
+                    <div>
+                        <select className="select select-bordered w-full max-w-xs font">
+                            <option disabled selected>How many poeple will be joining us?</option>
+                            <option>One</option>
+                            <option>Two</option>
+                            <option>Three</option>
+                            <option>Four</option>
+                            <option>Five</option>
+                            <option>Six</option>
+                        </select>
+                        <div className='flex justify-center items-center space-x-4'>
 
-                        <h1 className='text-2xl text-center'>You're selecting: {selectedDataFormatted} at {timeBooked} </h1>
-                        <button className="text-white btn text-l [w-40%] bg-primary">Continue</button>
-                        <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Send</button>
+                            <h1 className='text-2xl text-center'>You're selecting: {selectedDataFormatted} at {timeBooked} </h1>
+                            <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Send</button>
+                        </div>
                     </div>
+
+
                 </div>
 
             </div>
-
-
-            <div>{fullyBooked18OnSelectedDate && "the restaurant is fully booked that day at 18"}</div>
-            <div>{fullyBooked21OnSelectedDate && "the restaurant is fully booked that day at 21"}</div>
-
-
 
 
         </>

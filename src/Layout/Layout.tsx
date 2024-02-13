@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const Layout = () => {
     return (
-        <div>
+        <div className='font-serif'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Navbar />
                 <Outlet />
