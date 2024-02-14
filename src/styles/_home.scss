@@ -1,6 +1,7 @@
 .hero {
     height: 100%;
 }
+
 video {
     position: absolute;
     height: 100%;
@@ -40,4 +41,23 @@ video {
         }
         
     }
+}
+
+.opening-hours {
+    background: url(src/assets/albert-YYZU0Lo1uXE-unsplash.jpg);
+    background-size: cover;
+
+    &-text {
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 10px;
+    }
+
+    .logo-1 {
+        width: 25rem;
+    }
+
+    .logo-2 {
+        width: 20rem;
+    }
+    
 }
