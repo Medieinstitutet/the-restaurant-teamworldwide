@@ -15,17 +15,16 @@ interface IRecievedBookings {
     numberOfGuests: number
 }
 
-
 const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
     const [selectedDataFormatted, setSelectedDataFormatted] = useState("")
     const [sixSelected, setSixSelected] = useState(false)
     const [nineSelected, setNineSelected] = useState(false)
     const [timeBooked, setTimeBooked] = useState("")
+    const [currentBookingsOnSelectedDate, setCurrentBookingsOnSelectedDate] = useState<IRecievedBookings[]>()
     const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
     const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
-
-
+    const [numberOfPeople, setNumberOfPeople] = useState("One")
 
     useEffect(() => {
         console.log("user input is updated")
@@ -37,20 +36,29 @@ const DateTimeInfo = () => {
         const fetchAllBookings = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
-            const currentBookingsOnSelectedDateAt18 = []
-            const currentBookingsOnSelectedDateAt21 = []
+            const bookingsOnSelectedDate: IRecievedBookings[] = []
             allBookings.map((booking) => {
-                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { currentBookingsOnSelectedDateAt18.push(booking) }
-                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "21:00")) { currentBookingsOnSelectedDateAt21.push(booking) }
+                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { bookingsOnSelectedDate.push(booking) }
             })
-            console.log("current bookings on" + selectedDataFormatted + "are" + currentBookingsOnSelectedDateAt18.length + "current bookings at 21 are " + currentBookingsOnSelectedDateAt21.length)
-            if (currentBookingsOnSelectedDateAt18.length > 16) setFullyBooked18OnSelectedDate(true)
-            if (currentBookingsOnSelectedDateAt21.length > 16) setFullyBooked21OnSelectedDate(true)
-
+            const bookingsAt18OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "18:00")
+            const bookingsAt21OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "21:00")       
+            bookingsAt18OnSelectedDate.length > 16 ? setFullyBooked18OnSelectedDate(true) : setFullyBooked18OnSelectedDate(false)
+            bookingsAt21OnSelectedDate.length > 16 ? setFullyBooked21OnSelectedDate(true) : setFullyBooked21OnSelectedDate(false)
         }
-
         if (selectedDataFormatted) fetchAllBookings()
+        setSixSelected(false)
+        setNineSelected(false)
     }, [selectedDataFormatted])
+
+    useEffect(() => {
+        console.log(currentBookingsOnSelectedDate?.length)
+    },[currentBookingsOnSelectedDate])
+
+    const handleNumberOfPeopleChange = (value: string) => {
+        setNumberOfPeople(value)
+    }
+
+
 
 
 
@@ -63,37 +71,34 @@ const DateTimeInfo = () => {
                     <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
                     <div className='flex justify-center space-x-8 mt-20 pt-24 text-white'>
 
-                        <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>
-                        <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
                     </div>
-                    <h1 className='text-white'>{fullyBooked18OnSelectedDate ? "fully booked at 18" : ""}</h1>
-                    <h1 className='text-white'>{fullyBooked21OnSelectedDate && "fully booked at 21"}</h1>
                 </div>
 
-                <div className=' bg-white pt-24 lg:w-[70%] sm:[h-100%] px-20'>
-                    <h1 className='mb-20'>Booking at bleu</h1>
-
-
+                <div className=' bg-white pt-24 lg:w-[70%] px-20'>
                     <StaticDatePicker value={selectedDate} onChange={
                         (newValue) => setSelectedDate(newValue)
                     }
-                        defaultValue={dayjs('2022-04-17')}
+                        defaultValue={dayjs()}
                     />
-
+                        {fullyBooked18OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => setSixSelected(true)} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                        {fullyBooked21OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => setSixSelected(true)} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
 
                     <div>
-                        <select className="select select-bordered w-full max-w-xs font">
+
+                        
+                        <select className="select select-bordered w-full max-w-xs font"
+                        onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
                             <option disabled>How many poeple will be joining us?</option>
                             <option value="One">One</option>
-                            <option>Two</option>
-                            <option>Three</option>
-                            <option>Four</option>
-                            <option>Five</option>
-                            <option>Six</option>
+                            <option value="Two">Two</option>
+                            <option value="Three">Three</option>
+                            <option value="Four">Four</option>
+                            <option value="Five">Five</option>
+                            <option value="Six">Six</option>
                         </select>
-                        <div className='flex justify-center items-center space-x-4'>
 
-                            <h1 className='text-2xl text-center'>You're selecting: {selectedDataFormatted} at {timeBooked} </h1>
+                        <div className='flex justify-center items-center space-x-4'>
+                            <h1 className='text-2xl text-center'>You're selecting: {selectedDataFormatted} at {sixSelected ? "six selected" : "six not selected"} {nineSelected ? "nine selected" : "nine not selected"} "for" {numberOfPeople}</h1>
                             <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Send</button>
                         </div>
                     </div>
