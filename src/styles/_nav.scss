@@ -3,4 +3,19 @@
     top: 0;
     z-index: 99;
     // background-color: transparent;
+
+    .menu {
+        background-color: rgba(0, 0, 0, 0.8);
+
+        li {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.8);
+                color: #222;
+            }
+
+            // &:focus {
+            //     color: #CFC1AF;
+            // }
+        }
+    }
 }
