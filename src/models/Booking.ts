@@ -14,3 +14,11 @@ export class NewBooking {
 }
 
 
+export interface IReceivedBookings {
+    _id: string,
+    restaurantId: string,
+    date: string,
+    time: string,
+    numberOfGuests: number;
+    customerId: string;
+}
