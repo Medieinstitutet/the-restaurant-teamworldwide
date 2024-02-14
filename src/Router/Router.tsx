@@ -12,6 +12,7 @@ import DateTimeInfo from "../pages/DateTimeInfo";
 import UserContactInfo from "../pages/UserContactInfo";
 import AuthRoute from "../components/AuthRoute";
 import Login from "../pages/Login";
+import { MenuPage } from "../pages/MenuPage";
 
 
 export const router = createBrowserRouter([
@@ -32,7 +33,11 @@ export const router = createBrowserRouter([
       {
         path: "/contactinfo",
         element: <UserContactInfo />,
-    },
+      },
+      {
+        path: "/menu",
+        element: <MenuPage />,
+      },
       {
         path: "/contact",
         element: <ContactPage />
