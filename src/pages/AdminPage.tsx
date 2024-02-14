@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { IReceivedBookings } from '../models/Booking'
 import axios from 'axios'
 
-import React from 'react'
 
 const AdminPage = () => {
 
@@ -21,9 +20,10 @@ const AdminPage = () => {
     fetchAllBookings();
   }, [])
 
+
  const deleteBooking = async (id: string) => {
    try {
-    await axios.delete(`https://school-restaurant-api.azurewebsites.net/booking/restaurant/${id}`);
+    await axios.delete(`https://school-restaurant-api.azurewebsites.net/booking/delete/${id}`);
     setBookings(bookings.filter(booking => booking._id !== id));
    } catch (error) {
     console.log(error)
