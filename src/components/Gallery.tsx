@@ -21,7 +21,7 @@ const Gallery = () => {
     <div>
         <img src="src\assets\gaana-srinivas-kPTL_GocL3s-unsplash.jpg"/>
         </div>
-    <div>
+    <div className="vid-container">
         <video className="gallery-vid" controls autoPlay loop muted>
         <source src="src\assets\sweet_sour_-_11631 (540p).mp4" type="video/mp4"/>
         </video>
@@ -45,7 +45,7 @@ const Gallery = () => {
     <div>
         <img src="src\assets\food-photographer-jennifer-pallian-AZJjIlbZM60-unsplash.jpg"/>
         </div>
-    <div>
+    <div className="vid-container">
     <video className="gallery-vid"controls autoPlay loop muted>
         <source src="src\assets\cocktail_-_35871 (540p).mp4" type="video/mp4"/>
         </video>
