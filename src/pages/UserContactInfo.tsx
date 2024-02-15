@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import { NewCustomer } from '../models/Customer';
+import { UserInputContext } from '../contexts/userInputs';
 
 
 const UserContactInfo = () => {
@@ -8,6 +9,8 @@ const UserContactInfo = () => {
   const [currentCapacity, setCurrentCapacity] = useState()
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
   const [customerID, setCustomerID] = useState("")
+
+  const { newBooking/* , addCustomerDetails  */} = useContext(UserInputContext)
 
 
   const restaurantID = "65c6199912ebb6ed53265ac6"
@@ -45,6 +48,7 @@ const UserContactInfo = () => {
 
   return (
     <main className='bg-accent h-screen p-4'>
+     <div>{newBooking.numberOfGuests + newBooking.date + newBooking.restaurantId + newBooking.time}</div>
       <form onSubmit={handleSubmit} className='mt-6 ml-6 flex space-x-6'>
         <input name="name" value={createCustomerInput.name} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
         <input name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
