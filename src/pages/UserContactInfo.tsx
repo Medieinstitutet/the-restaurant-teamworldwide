@@ -16,41 +16,14 @@ const UserContactInfo = () => {
   const { newBooking, addCustomerDetails } = useContext(UserInputContext)
 
 
-  const restaurantID = "65c6199912ebb6ed53265ac6"
-
-  /* const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log(createCustomerInput)
-    axios.post("https://school-restaurant-api.azurewebsites.net/booking/create", {
-      /*       "restaurantId": {restaurantID},
-            "date": "2022-01-01",
-            "time": "18:00",
-            "numberOfGuests": 4,
-            "customer": { */
-  /*   "name": createCustomerInput.name,
-      "lastname": createCustomerInput.lastname,
-        "email": createCustomerInput.email,
-          "phone": createCustomerInput.phone, */
-  /*  } */
-  /*  }).then(function (response) {
- console.log(response);
- setCustomerID(response.data)
- console.log("customer id" + customerID)
-})
- .catch(function (error) {
-   console.log(error);
- })
- * /
- } */
-
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log("logging submit")
     addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
-
   }
 
   const openModal = () => {
@@ -90,7 +63,7 @@ const UserContactInfo = () => {
         </div>
         <div>
           <span className="label-text">Email</span>
-          <input type="email" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+          <input type="text" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
           <span className="label-text">Phone *</span>

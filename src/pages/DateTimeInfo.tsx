@@ -112,7 +112,7 @@ const DateTimeInfo = () => {
                     </div>
                 </div>
 
-                <div className=' bg-white pt-24 lg:w-[70%] px-20 items-center'>
+                <div className=' bg-white pt-24 lg:w-[70%] px-20'>
                     <StaticDatePicker value={selectedDate} onChange={
                         (newValue) => setSelectedDate(newValue)
                     }
