@@ -1,19 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 
 import { StaticDatePicker } from '@mui/x-date-pickers';
-import { UserInputContext } from '../contexts/userInputs';
-
-interface IRecievedBookings {
-    _id: string,
-    restaurantId: string,
-    date: string,
-    time: string,
-    numberOfGuests: number
-}
+import { CheckForAvailabilityContext, UserInputContext } from '../contexts/userInputs';
+import { checkForAvailability } from '../helperfunctions/checkforavailbility';
 
 const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
@@ -21,15 +14,17 @@ const DateTimeInfo = () => {
     const [sixSelected, setSixSelected] = useState(false)
     const [nineSelected, setNineSelected] = useState(false)
     const [timeBooked, setTimeBooked] = useState("")
-    const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
-    const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
     const [numberOfPeople, setNumberOfPeople] = useState("")
     const [fieldsFilled, setFieldsFilled] = useState(false)
 
-    const { newBooking, addBookingDetails } = useContext(UserInputContext)
+    const { addBookingDetails } = useContext(UserInputContext)
+    const { toggleFullyBookedAtSix,
+        fullyBookedAtSix,
+        fullyBookedAtNine,
+        toggleFullyBookedAtNine 
+    } = useContext(CheckForAvailabilityContext)
+
     const navigate = useNavigate()
-
-
 
     useEffect(() => {
         console.log("user input is updated")
@@ -38,25 +33,13 @@ const DateTimeInfo = () => {
     }, [selectedDate])
 
     useEffect(() => {
-        const checkForAvailability = async () => {
-            const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
-            const allBookings = response.data
-            const bookingsOnSelectedDate: IRecievedBookings[] = []
-            allBookings.map((booking) => {
-                if (booking.date.toString() === selectedDataFormatted) { bookingsOnSelectedDate.push(booking) }
-            })
-            const bookingsAt18OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "18:00")
-            const bookingsAt21OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "21:00")
-            bookingsAt18OnSelectedDate.length > 16 ? setFullyBooked18OnSelectedDate(true) : setFullyBooked18OnSelectedDate(false)
-            bookingsAt21OnSelectedDate.length > 16 ? setFullyBooked21OnSelectedDate(true) : setFullyBooked21OnSelectedDate(false)
-        }
-        if (selectedDataFormatted) checkForAvailability()
+        if (selectedDataFormatted) checkForAvailability(toggleFullyBookedAtNine, toggleFullyBookedAtSix, selectedDataFormatted)
         setTimeBooked("")
     }, [selectedDataFormatted])
 
     useEffect(() => {
         formControl()
-    },[timeBooked, selectedDataFormatted, numberOfPeople])
+    }, [timeBooked, selectedDataFormatted, numberOfPeople])
 
 
     useEffect(() => {
@@ -119,22 +102,22 @@ const DateTimeInfo = () => {
                         defaultValue={dayjs()}
                     />
                     <div className='space-x-12'>
-                        {fullyBooked18OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
-                        {fullyBooked21OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+                        {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                        {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
                     </div>
 
                     <select className="mt-12 mr-12 select select-bordered w-full max-w-xs font"
-                            onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
-                            <option disabled>How many poeple will be joining us?</option>
-                            <option value="">Choose an option</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                            <option value="4">Four</option>
-                            <option value="5">Five</option>
-                            <option value="6">Six</option>
-                        </select>
-                        <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
+                        onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
+                        <option disabled>How many poeple will be joining us?</option>
+                        <option value="">Choose an option</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        <option value="4">Four</option>
+                        <option value="5">Five</option>
+                        <option value="6">Six</option>
+                    </select>
+                    <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
 
                     <div>
 

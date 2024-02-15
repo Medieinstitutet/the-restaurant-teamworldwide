@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth'
+import { UserInputContext } from '../contexts/userInputs'
 
 const Navbar = () => {
     const [displayLogout, setDisplayLogout] = useState(false)
@@ -17,6 +18,7 @@ const Navbar = () => {
         });
     }, [auth])
 
+    const {newBooking} = useContext(UserInputContext)
 
 
     return (
