@@ -25,10 +25,10 @@ const DateTimeInfo = () => {
     const [timeBooked, setTimeBooked] = useState("")
     const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
     const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
-    const [numberOfPeople, setNumberOfPeople] = useState("One")
-    
-        const { newBooking, addBookingDetails } = useContext(UserInputContext)
-     
+    const [numberOfPeople, setNumberOfPeople] = useState("1")
+
+    const { newBooking, addBookingDetails } = useContext(UserInputContext)
+
 
 
     useEffect(() => {
@@ -74,10 +74,10 @@ const DateTimeInfo = () => {
         setNineSelected(true)
     }
 
-     const handleUserInput = () => {
+    const handleUserInput = () => {
         console.log("triggered")
-            addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
-        } 
+        addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
+    }
 
 
 
@@ -87,7 +87,6 @@ const DateTimeInfo = () => {
             <div className="w-100% bg-primary h-screen lg:flex sm:flex-row">
                 <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
                     <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
-                    <h1>Helloo {newBooking.date} {newBooking.numberOfGuests} </h1>
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
                     <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
                     <div className='flex justify-center space-x-8 mt-20  text-white'>
@@ -106,13 +105,12 @@ const DateTimeInfo = () => {
                     }
                         defaultValue={dayjs()}
                     />
-                    {fullyBooked18OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
-                    {fullyBooked21OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+                    <div className='space-x-12'>
+                        {fullyBooked18OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                        {fullyBooked21OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+                    </div>
 
-                    <div>
-
-
-                        <select className="mt-12 select select-bordered w-full max-w-xs font"
+                    <select className="mt-12 mr-12 select select-bordered w-full max-w-xs font"
                             onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
                             <option disabled>How many poeple will be joining us?</option>
                             <option value="1">One</option>
@@ -123,6 +121,8 @@ const DateTimeInfo = () => {
                             <option value="6">Six</option>
                         </select>
                         <Link to={"/contactinfo"}><button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button></Link>
+
+                    <div>
 
                     </div>
 

@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import axios from 'axios';
 import { NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
+import { Link } from 'react-router-dom';
 
 
 const UserContactInfo = () => {
@@ -55,6 +56,8 @@ const UserContactInfo = () => {
         <input name="email" value={createCustomerInput.email} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
         <input name="phone" value={createCustomerInput.phone} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
         <button className="btn btn-alert mt-8 ml-10">Click here to fetch reservations</button>
+        <Link to={"/booking"}><button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Back</button></Link>
+
       </form>
 
 
