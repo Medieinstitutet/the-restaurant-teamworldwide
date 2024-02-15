@@ -108,9 +108,9 @@ const AdminPage = () => {
         <tbody>
           {bookings.map((booking) => (
             <tr key={booking._id} className='border-t'>
-              {/* <td className='px-5 py-2'>
+              <td className='px-5 py-2'>
                 <button onClick={() => deleteBooking(booking._id)}>delete</button>
-              </td> */}
+              </td>
               {/* hittar inte editBooking */}
               {/* <td className='px-5 py-2'>
                 <button onClick={() => editBooking()}>Edit</button>
