@@ -17,7 +17,7 @@ const AdminPage = () => {
   const [enableEdit, setEnableEdit] = useState(false);
   const [newDate, setNewDate] = useState<Dayjs | null>(dayjs("2022-04-17"));
   const [newDateFormatted, setnewDateFormatted] = useState("");
-  const [togglingDate, setTogglingDate] = useState(false)
+  const [togglingDate, setTogglingDate] = useState(false);
 
   const {
     toggleFullyBookedAtSix,
@@ -120,11 +120,10 @@ const AdminPage = () => {
   // }, [newDate])
 
   useEffect(() => {
-    const newDateToISO = newDate?.toISOString()
-    setnewDateFormatted(dayjs(newDateToISO).format("YYYY-MM-DD"))
-    setTogglingDate(true)
-    if(newDateFormatted) {
-
+    const newDateToISO = newDate?.toISOString();
+    setnewDateFormatted(dayjs(newDateToISO).format("YYYY-MM-DD"));
+    setTogglingDate(true);
+    if (newDateFormatted) {
     }
   }, [newDate]);
 
@@ -156,8 +155,7 @@ const AdminPage = () => {
         }
       })
     );
-    setEnableEdit(!enableEdit)
-  
+    setEnableEdit(!enableEdit);
   };
 
   const updateBooking = async (id: string) => {
@@ -221,28 +219,29 @@ const AdminPage = () => {
               <td className='px-5 py-2 text-center'>{booking.numberOfGuests}</td>
               <td className='px-5 py-2'>{booking.customerId}</td> */}
               <td className="px-5 py-2">
-              {togglingDate
-               ? 
-               <button
-               id="edit-button"
-               onClick={() => handleDateChange(
-                newDateFormatted,
-                booking._id,
-                booking.customerId,
-                booking.time,
-                booking.numberOfGuests
-               )}
-             >
-               {enableEdit ? "Save" : "Edit"}
-             </button>
-             : 
-                <button
-                  id="edit-button"
-                  onClick={() => toggleEnableEdit(booking._id)}
-                >
-                  {enableEdit ? "Save" : "Edit"}
-                </button>
-                }
+                {togglingDate ? (
+                  <button
+                    id="edit-button"
+                    onClick={() =>
+                      handleDateChange(
+                        newDateFormatted,
+                        booking._id,
+                        booking.customerId,
+                        booking.time,
+                        booking.numberOfGuests
+                      )
+                    }
+                  >
+                    {enableEdit ? "Save" : "Edit"}
+                  </button>
+                ) : (
+                  <button
+                    id="edit-button"
+                    onClick={() => toggleEnableEdit(booking._id)}
+                  >
+                    {enableEdit ? "Save" : "Edit"}
+                  </button>
+                )}
               </td>
               <td className="px-5 py-2">{booking._id}</td>
               <td className="px-5 py-2">

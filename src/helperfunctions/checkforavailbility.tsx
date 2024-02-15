@@ -24,15 +24,9 @@ export const checkForAvailability = async (
     (booking) => booking.time === "18:00"
   );
 
-  console.log(bookingsAt18OnSelectedDate.length)
-
-  
   const bookingsAt21OnSelectedDate = bookingsOnSelectedDate.filter(
     (booking) => booking.time === "21:00"
   );
-
-  console.log(bookingsAt21OnSelectedDate.length)
-
   bookingsAt18OnSelectedDate.length > 16
     ? toggleFullyBookedAtSix(true)
     : toggleFullyBookedAtSix(false);

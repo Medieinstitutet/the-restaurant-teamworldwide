@@ -33,6 +33,7 @@ const Layout = () => {
         fullyBookedAtNine: false,
     })
 
+    //problem is here we think look into these functions.
     availbilityState.toggleFullyBookedAtNine = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtNine: bool }) }
     availbilityState.toggleFullyBookedAtSix = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtSix: bool }) }
 
