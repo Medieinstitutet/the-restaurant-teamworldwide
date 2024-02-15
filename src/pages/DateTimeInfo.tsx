@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router'
+import { useNavigate} from 'react-router-dom'
 
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 
 import { StaticDatePicker } from '@mui/x-date-pickers';
 import { UserInputContext } from '../contexts/userInputs';
-import { Link } from 'react-router-dom';
-
 
 interface IRecievedBookings {
     _id: string,
@@ -25,9 +23,11 @@ const DateTimeInfo = () => {
     const [timeBooked, setTimeBooked] = useState("")
     const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
     const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
-    const [numberOfPeople, setNumberOfPeople] = useState("1")
+    const [numberOfPeople, setNumberOfPeople] = useState("")
+    const [fieldsFilled, setFieldsFilled] = useState(false)
 
     const { newBooking, addBookingDetails } = useContext(UserInputContext)
+    const navigate = useNavigate()
 
 
 
@@ -54,6 +54,9 @@ const DateTimeInfo = () => {
         setTimeBooked("")
     }, [selectedDataFormatted])
 
+    useEffect(() => {
+        formControl()
+    },[timeBooked, selectedDataFormatted, numberOfPeople])
 
 
     useEffect(() => {
@@ -75,9 +78,19 @@ const DateTimeInfo = () => {
     }
 
     const handleUserInput = () => {
-        console.log("triggered")
         addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
+        navigate("/contactinfo")
     }
+
+    const formControl = () => {
+        if (timeBooked && selectedDataFormatted && numberOfPeople) {
+            setFieldsFilled(true)
+        } else {
+            setFieldsFilled(false)
+        }
+    }
+
+
 
 
 
@@ -113,6 +126,7 @@ const DateTimeInfo = () => {
                     <select className="mt-12 mr-12 select select-bordered w-full max-w-xs font"
                             onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
                             <option disabled>How many poeple will be joining us?</option>
+                            <option value="">Choose an option</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -120,7 +134,7 @@ const DateTimeInfo = () => {
                             <option value="5">Five</option>
                             <option value="6">Six</option>
                         </select>
-                        <Link to={"/contactinfo"}><button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button></Link>
+                        <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
 
                     <div>
 

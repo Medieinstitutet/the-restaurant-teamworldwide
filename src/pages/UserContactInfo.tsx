@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import { NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
@@ -10,13 +10,15 @@ const UserContactInfo = () => {
   const [currentCapacity, setCurrentCapacity] = useState()
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
   const [customerID, setCustomerID] = useState("")
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [fieldsFilled, setFieldsFilled] = useState(false)
 
-  const { newBooking/* , addCustomerDetails  */} = useContext(UserInputContext)
+  const { newBooking, addCustomerDetails } = useContext(UserInputContext)
 
 
   const restaurantID = "65c6199912ebb6ed53265ac6"
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  /* const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log(createCustomerInput)
     axios.post("https://school-restaurant-api.azurewebsites.net/booking/create", {
@@ -25,44 +27,99 @@ const UserContactInfo = () => {
             "time": "18:00",
             "numberOfGuests": 4,
             "customer": { */
-      "name": createCustomerInput.name,
+  /*   "name": createCustomerInput.name,
       "lastname": createCustomerInput.lastname,
-      "email": createCustomerInput.email,
-      "phone": createCustomerInput.phone,
-      /*  } */
-    }).then(function (response) {
-      console.log(response);
-      setCustomerID(response.data)
-      console.log("customer id" + customerID)
-    })
-      .catch(function (error) {
-        console.log(error);
-      })
-
-  }
+        "email": createCustomerInput.email,
+          "phone": createCustomerInput.phone, */
+  /*  } */
+  /*  }).then(function (response) {
+ console.log(response);
+ setCustomerID(response.data)
+ console.log("customer id" + customerID)
+})
+ .catch(function (error) {
+   console.log(error);
+ })
+ * /
+ } */
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
   }
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
 
+  }
+
+  const openModal = () => {
+    const modal = document.getElementById('my_modal_4') as HTMLDialogElement
+    if (modal) {
+      modal.showModal()
+    }
+  }
+
+  const consoleLog = () => {
+    console.log("checking checking")
+  }
+
+  const formControl = () => {
+    if (createCustomerInput.name && createCustomerInput.email && createCustomerInput.lastname && createCustomerInput.phone) {
+      setFieldsFilled(true)
+    } else {
+      setFieldsFilled(false)
+    }
+  }
+
+  useEffect(() => {
+    formControl()
+  }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone])
 
   return (
-    <main className='bg-accent h-screen p-4'>
-     <div>{newBooking.numberOfGuests + newBooking.date + newBooking.restaurantId + newBooking.time}</div>
-      <form onSubmit={handleSubmit} className='mt-6 ml-6 flex space-x-6'>
-        <input name="name" value={createCustomerInput.name} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-        <input name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-        <input name="email" value={createCustomerInput.email} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-        <input name="phone" value={createCustomerInput.phone} onChange={handleNameChange} type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
-        <button className="btn btn-alert mt-8 ml-10">Click here to fetch reservations</button>
-        <Link to={"/booking"}><button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Back</button></Link>
+    <div className='contact min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
+      <h1 className='text-neutral-50'>Your details</h1>
+      <form onSubmit={handleSubmit} className='contact-form w-full max-w-lg flex flex-col gap-6 px-10 py-5 rounded-lg'>
+        <div>
+          <span className="label-text">First name *</span>
+          <input type="text" required name="name" value={createCustomerInput.name} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+        </div>
+        <div>
+          <span className="label-text">Last name</span>
+          <input type="text" required name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+        </div>
+        <div>
+          <span className="label-text">Email</span>
+          <input type="email" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+        </div>
+        <div>
+          <span className="label-text">Phone *</span>
+          <input name="phone" type= "tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="textarea textarea-bordered w-full max-w-full mt-2"/>
+        </div>
 
+        <button disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary" onClick={() => openModal()}>Review details</button>
+        <dialog id="my_modal_4" className="modal">
+          <div className="modal-box w-11/12 max-w-5xl">
+            <h3 className="font-bold text-lg">Your booking details</h3>
+            <div>
+              <p className="py-4">Time booked: {newBooking.time}</p>
+              <p className="py-4">Date booked: {newBooking.date}</p>
+              <p className="py-4">Number of guests: {newBooking.numberOfGuests}</p>
+              <p className="py-4">Name: {newBooking.customer.name}</p>
+              <p className="py-4">Last name: {newBooking.customer.lastname}</p>
+              <p className="py-4">Contact email: {newBooking.customer.email}</p>
+              <p className="py-4">Contact number: {newBooking.customer.phone}</p>
+            </div>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn">Close</button>
+                <button onClick={() => consoleLog()} className="btn mx-4">Submit</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </form>
-
-
-    </main>
-
+    </div>
   )
 }
 
