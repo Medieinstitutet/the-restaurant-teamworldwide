@@ -38,19 +38,19 @@ const DateTimeInfo = () => {
     }, [selectedDate])
 
     useEffect(() => {
-        const fetchAllBookings = async () => {
+        const checkForAvailability = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
             const bookingsOnSelectedDate: IRecievedBookings[] = []
             allBookings.map((booking) => {
-                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { bookingsOnSelectedDate.push(booking) }
+                if (booking.date.toString() === selectedDataFormatted) { bookingsOnSelectedDate.push(booking) }
             })
             const bookingsAt18OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "18:00")
             const bookingsAt21OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "21:00")
             bookingsAt18OnSelectedDate.length > 16 ? setFullyBooked18OnSelectedDate(true) : setFullyBooked18OnSelectedDate(false)
             bookingsAt21OnSelectedDate.length > 16 ? setFullyBooked21OnSelectedDate(true) : setFullyBooked21OnSelectedDate(false)
         }
-        if (selectedDataFormatted) fetchAllBookings()
+        if (selectedDataFormatted) checkForAvailability()
         setTimeBooked("")
     }, [selectedDataFormatted])
 

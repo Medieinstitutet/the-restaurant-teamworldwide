@@ -29,6 +29,7 @@ const Layout = () => {
         <div className='font-serif'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <UserInputContext.Provider value={userInputState}>
+                    <Navbar/>
                     <Outlet />
                     <Footer />
                 </UserInputContext.Provider>
