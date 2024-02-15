@@ -27,14 +27,14 @@ const Layout = () => {
 
     //state for availbilitycheck
     const [availbilityState, setAvailabilityState] = useState<ICheckForAvailability>({
-        toggleFullyBookedAtSix: (boolean) => { },
-        toggleFullyBookedAtNine: (boolean) => { },
+        toggleFullyBookedAtSix: (bool: boolean) => { },
+        toggleFullyBookedAtNine: (bool: boolean) => { },
         fullyBookedAtSix: false,
         fullyBookedAtNine: false,
     })
 
-    availbilityState.toggleFullyBookedAtNine = (boolean) => { setAvailabilityState({ ...availbilityState, fullyBookedAtNine: boolean }) }
-    availbilityState.toggleFullyBookedAtSix = (boolean) => { setAvailabilityState({ ...availbilityState, fullyBookedAtSix: boolean }) }
+    availbilityState.toggleFullyBookedAtNine = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtNine: bool }) }
+    availbilityState.toggleFullyBookedAtSix = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtSix: bool }) }
 
     return (
         <div className='font-serif'>

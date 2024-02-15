@@ -33,6 +33,7 @@ const DateTimeInfo = () => {
     }, [selectedDate])
 
     useEffect(() => {
+
         if (selectedDataFormatted) checkForAvailability(toggleFullyBookedAtNine, toggleFullyBookedAtSix, selectedDataFormatted)
         setTimeBooked("")
     }, [selectedDataFormatted])
