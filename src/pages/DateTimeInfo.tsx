@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useContext, useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router'
 
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
-import AddComponent from '../components/dateTimePicker';
+
+import { StaticDatePicker } from '@mui/x-date-pickers';
+import { UserInputContext } from '../contexts/userInputs';
+import { Link } from 'react-router-dom';
 
 
 interface IRecievedBookings {
@@ -14,7 +17,6 @@ interface IRecievedBookings {
     numberOfGuests: number
 }
 
-
 const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
     const [selectedDataFormatted, setSelectedDataFormatted] = useState("")
@@ -23,52 +25,59 @@ const DateTimeInfo = () => {
     const [timeBooked, setTimeBooked] = useState("")
     const [fullyBooked18OnSelectedDate, setFullyBooked18OnSelectedDate] = useState(false)
     const [fullyBooked21OnSelectedDate, setFullyBooked21OnSelectedDate] = useState(false)
-    const navigate = useNavigate()
+    const [numberOfPeople, setNumberOfPeople] = useState("One")
+    
+        const { newBooking, addBookingDetails } = useContext(UserInputContext)
+     
 
-    const handleClick = () => {
-        navigate('contactinfo')
-    }
 
     useEffect(() => {
-        //changing the date we get to a string from the user input
+        console.log("user input is updated")
         const selecteDateIsoString = selectedDate?.toISOString()
-        //making the string the right format for the API request
         setSelectedDataFormatted(dayjs(selecteDateIsoString).format('YYYY-MM-DD'));
+    }, [selectedDate])
 
+    useEffect(() => {
         const fetchAllBookings = async () => {
             const response = await axios.get<IRecievedBookings[]>("https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/")
             const allBookings = response.data
-
+            const bookingsOnSelectedDate: IRecievedBookings[] = []
             allBookings.map((booking) => {
-                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { currentBookingsOnSelectedDateAt18.push(booking) }
-                else if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "21:00")) { currentBookingsOnSelectedDateAt21.push(booking) }
+                if ((booking.date.toString() === selectedDataFormatted) && (booking.time.toString() === "18:00")) { bookingsOnSelectedDate.push(booking) }
             })
-            const currentBookingsOnSelectedDateAt18 = []
-            const currentBookingsOnSelectedDateAt21 = []
-            console.log("current bookings at 18" + currentBookingsOnSelectedDateAt18.length + "current bookings at 21" + currentBookingsOnSelectedDateAt21.length)
-            if (currentBookingsOnSelectedDateAt18.length > 16) setFullyBooked18OnSelectedDate(true)
-            if (currentBookingsOnSelectedDateAt21.length > 16) setFullyBooked21OnSelectedDate(true)
-            console.log(currentBookingsOnSelectedDateAt21.length)
+            const bookingsAt18OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "18:00")
+            const bookingsAt21OnSelectedDate = bookingsOnSelectedDate.filter((booking) => booking.time === "21:00")
+            bookingsAt18OnSelectedDate.length > 16 ? setFullyBooked18OnSelectedDate(true) : setFullyBooked18OnSelectedDate(false)
+            bookingsAt21OnSelectedDate.length > 16 ? setFullyBooked21OnSelectedDate(true) : setFullyBooked21OnSelectedDate(false)
         }
         if (selectedDataFormatted) fetchAllBookings()
-    }, [selectedDate])
+        setTimeBooked("")
+    }, [selectedDataFormatted])
+
 
 
     useEffect(() => {
-        if (!nineSelected) setTimeBooked("18:00")
         if (sixSelected) setTimeBooked("18:00")
         if (nineSelected) setTimeBooked("21:00")
     }, [sixSelected, nineSelected])
 
-    const handleBookSix = () => {
-        setSixSelected((prev) => !prev)
+    const handleNumberOfPeopleChange = (value: string) => {
+        setNumberOfPeople(value)
+    }
+    const handleSixSelected = () => {
+        setSixSelected(true);
         setNineSelected(false)
     }
 
-    const handleBookNine = () => {
-        setNineSelected((prev) => !prev)
-        setSixSelected(false)
+    const handleNineSelected = () => {
+        setSixSelected(false);
+        setNineSelected(true)
     }
+
+     const handleUserInput = () => {
+        console.log("triggered")
+            addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
+        } 
 
 
 
@@ -78,38 +87,43 @@ const DateTimeInfo = () => {
             <div className="w-100% bg-primary h-screen lg:flex sm:flex-row">
                 <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
                     <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
+                    <h1>Helloo {newBooking.date} {newBooking.numberOfGuests} </h1>
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
                     <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
-                    <div className='flex justify-center space-x-8 mt-20 pt-24 text-white'>
-
-                        <button onClick={() => handleBookSix()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>
-                        <button disabled={fullyBooked21OnSelectedDate} onClick={() => handleBookNine()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
+                    <div className='flex justify-center space-x-8 mt-20  text-white'>
+                        <div>
+                            Your booking details:
+                            <h4>{selectedDataFormatted ? selectedDataFormatted : "Please select a date"}</h4>
+                            <h4>{timeBooked ? timeBooked : "Please select a time"}</h4>
+                            <h4>For {numberOfPeople} persons</h4>
+                        </div>
                     </div>
-                    <h1 className='text-white'>{fullyBooked18OnSelectedDate && "fully booked at 18"}</h1>
-                    <h1>{fullyBooked21OnSelectedDate && "fully booked at 21"}</h1>
                 </div>
 
-                <div className=' bg-white pt-24 lg:w-[70%] sm:[h-100%] pl-20'>
-                    <h1>Booking at bleu</h1>
-                    <AddComponent
-                        selectedDate={selectedDate}
-                        onChange={(newDate) => setSelectedDate(newDate)}
+                <div className=' bg-white pt-24 lg:w-[70%] px-20 items-center'>
+                    <StaticDatePicker value={selectedDate} onChange={
+                        (newValue) => setSelectedDate(newValue)
+                    }
+                        defaultValue={dayjs()}
                     />
-                    <div>
-                        <select className="select select-bordered w-full max-w-xs font">
-                            <option disabled>How many poeple will be joining us?</option>
-                            <option value="One">One</option>
-                            <option>Two</option>
-                            <option>Three</option>
-                            <option>Four</option>
-                            <option>Five</option>
-                            <option>Six</option>
-                        </select>
-                        <div className='flex justify-center items-center space-x-4'>
+                    {fullyBooked18OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                    {fullyBooked21OnSelectedDate ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
 
-                            <h1 className='text-2xl text-center'>You're selecting: {selectedDataFormatted} at {timeBooked} </h1>
-                            <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Send</button>
-                        </div>
+                    <div>
+
+
+                        <select className="mt-12 select select-bordered w-full max-w-xs font"
+                            onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
+                            <option disabled>How many poeple will be joining us?</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                            <option value="5">Five</option>
+                            <option value="6">Six</option>
+                        </select>
+                        <Link to={"/contactinfo"}><button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button></Link>
+
                     </div>
 
 
