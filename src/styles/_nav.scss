@@ -13,9 +13,23 @@
                 color: #222;
             }
 
-            // &:focus {
-            //     color: #CFC1AF;
-            // }
-        }
+             &:focus {
+                  color: #CFC1AF;
+                  background-color: none ;
+             }
+        a {
+            &:active {
+                background-color: none ;
+                color: white;
+                outline: none;
+            }
+
+            &:visited {
+                background-color:rgba(255, 255, 255, 0.8) ;
+                color: white;
+                
+            }
+          }
+            }
     }
 }
