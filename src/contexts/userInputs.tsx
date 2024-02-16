@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { NewBooking } from "../models/Booking";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface IUserInputContext {
     newBooking: NewBooking,
@@ -13,4 +14,19 @@ export const UserInputContext = createContext<IUserInputContext>({
     addCustomerDetails: (name: string, lastname: string, email: string, phone: string) => {}
 }
 )
+
+export interface ICheckForAvailability {
+    fullyBookedAtSix: boolean,
+    fullyBookedAtNine: boolean,
+    toggleFullyBookedAtSix: (boolean : boolean) => void,
+    toggleFullyBookedAtNine: (boolean: boolean) => void,
+}
+
+export const CheckForAvailabilityContext = createContext<ICheckForAvailability>({
+    toggleFullyBookedAtSix: (boolean) => {},
+    fullyBookedAtSix: false,
+    fullyBookedAtNine: false,
+    toggleFullyBookedAtNine: (boolean) => {},
+
+})
 
