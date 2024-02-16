@@ -13,6 +13,7 @@ video {
 
 .menu {
     padding: 0;
+
     &-content {
         display: flex;
 
@@ -40,6 +41,14 @@ video {
             }
         }
         
+        @media screen and (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            
+            figure {
+                width: 100%;
+            }
+        }
     }
 }
 
@@ -58,6 +67,18 @@ video {
 
     .logo-2 {
         width: 20rem;
+    }
+    
+    @media screen and (max-width: 768px) {
+        display: block;
+        
+        p {
+            margin: 0 auto;
+        }
+
+        img {
+            display: none;
+        }
     }
     
 }
