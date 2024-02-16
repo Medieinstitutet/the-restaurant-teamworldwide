@@ -80,7 +80,7 @@ const DateTimeInfo = () => {
 
     return (
         <>
-            <div className="w-100% bg-primary h-screen lg:flex sm:flex-row">
+            <div className="w-100% lg:flex sm:flex-row mt-16 p-10">
                 <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
                     <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
@@ -95,13 +95,13 @@ const DateTimeInfo = () => {
                     </div>
                 </div>
 
-                <div className=' bg-white pt-24 lg:w-[70%] px-20'>
+                <div className='date-picker bg-white py-24 lg:w-[70%] px-20'>
                     <StaticDatePicker value={selectedDate} onChange={
                         (newValue) => setSelectedDate(newValue)
                     }
                         defaultValue={dayjs()}
                     />
-                    <div className='space-x-12'>
+                    <div className='time-buttons space-x-12'>
                         {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
                         {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
                     </div>
@@ -118,12 +118,6 @@ const DateTimeInfo = () => {
                         <option value="6">Six</option>
                     </select>
                     <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
-
-                    <div>
-
-                    </div>
-
-
                 </div>
 
             </div>

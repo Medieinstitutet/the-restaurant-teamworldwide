@@ -8,4 +8,10 @@
     h3 {
         font-family: var(--font-serif)
     }
+    
+    @media screen and (max-width: 768px) {
+        h3 {
+            padding-top: 3rem;
+        }
+    }
 }

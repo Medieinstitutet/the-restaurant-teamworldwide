@@ -50,24 +50,24 @@ const UserContactInfo = () => {
   }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone])
 
   return (
-    <div className='contact min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
+    <div className='contact-info min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
       <h1 className='text-neutral-50'>Your details</h1>
       <form onSubmit={handleSubmit} className='contact-form w-full max-w-lg flex flex-col gap-6 px-10 py-5 rounded-lg'>
         <div>
-          <span className="label-text">First name *</span>
+          <span className="label-text text-neutral-50">First name *</span>
           <input type="text" required name="name" value={createCustomerInput.name} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text">Last name</span>
+          <span className="label-text text-neutral-50">Last name *</span>
           <input type="text" required name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text">Email</span>
+          <span className="label-text text-neutral-50">Email *</span>
           <input type="text" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text">Phone *</span>
-          <input name="phone" type= "tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="textarea textarea-bordered w-full max-w-full mt-2"/>
+          <span className="label-text text-neutral-50">Phone *</span>
+          <input name="phone" type= "tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2"/>
         </div>
 
         <button disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary" onClick={() => openModal()}>Review details</button>
