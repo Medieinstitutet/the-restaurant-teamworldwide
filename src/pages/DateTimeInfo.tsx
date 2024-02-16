@@ -95,13 +95,13 @@ const DateTimeInfo = () => {
                     </div>
                 </div>
 
-                <div className=' bg-white py-24 lg:w-[70%] px-20'>
+                <div className='date-picker bg-white py-24 lg:w-[70%] px-20'>
                     <StaticDatePicker value={selectedDate} onChange={
                         (newValue) => setSelectedDate(newValue)
                     }
                         defaultValue={dayjs()}
                     />
-                    <div className='space-x-12'>
+                    <div className='time-buttons space-x-12'>
                         {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
                         {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
                     </div>
@@ -118,12 +118,6 @@ const DateTimeInfo = () => {
                         <option value="6">Six</option>
                     </select>
                     <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
-
-                    <div>
-
-                    </div>
-
-
                 </div>
 
             </div>
