@@ -4,6 +4,7 @@ import { NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
 import { Link } from 'react-router-dom';
 import { IConfirmedBooking } from '../models/Booking';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const UserContactInfo = () => {
@@ -14,6 +15,7 @@ const UserContactInfo = () => {
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [fieldsFilled, setFieldsFilled] = useState(false)
   const [bookingId, setBookingId] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { newBooking, addCustomerDetails } = useContext(UserInputContext)
 
@@ -31,24 +33,31 @@ const UserContactInfo = () => {
   }
 
   const onSubmit = async () => {
-    const response = await axios.post<IConfirmedBooking>("https://school-restaurant-api.azurewebsites.net/booking/create",
-    {
-      "restaurantId": newBooking.restaurantId,
-      "date": newBooking.date,
-      "time": newBooking.time,
-      "numberOfGuests": Number(newBooking.numberOfGuests),
-      "customer": {
-        "name": newBooking.customer.name,
-        "lastname": newBooking.customer.lastname,
-        "email": newBooking.customer.email,
-        "phone": newBooking.customer.phone
-      }
-    }
-    )
-    const bookingID = response.data.insertedId
-    setBookingId(bookingID)
 
+    try {
+      setIsSubmitting(true)
+      const response = await axios.post<IConfirmedBooking>("https://school-restaurant-api.azurewebsites.net/booking/create",
+        {
+          "restaurantId": newBooking.restaurantId,
+          "date": newBooking.date,
+          "time": newBooking.time,
+          "numberOfGuests": Number(newBooking.numberOfGuests),
+          "customer": {
+            "name": newBooking.customer.name,
+            "lastname": newBooking.customer.lastname,
+            "email": newBooking.customer.email,
+            "phone": newBooking.customer.phone
+          }
+        }
+      )
+      const bookingID = response.data.insertedId
+      setBookingId(bookingID)
+    } catch (error) {
+      setIsSubmitting(false)
+    }
   }
+
+
 
   const openModal = () => {
     const modal = document.getElementById('my_modal_4') as HTMLDialogElement
@@ -87,14 +96,14 @@ const UserContactInfo = () => {
         </div>
         <div>
           <span className="label-text text-neutral-50">Phone *</span>
-          <input name="phone" type= "tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2"/>
+          <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
         </div>
 
         <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Review details</button>
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
             <h3 className="font-bold text-lg">Booking confirmation</h3>
-            <p>{`please make a note of your booking ID for cancellations or changes ${bookingId}`}</p>
+            <p>please make a note of your booking ID for cancellations or change {!bookingId ? <ClipLoader/> : bookingId} </p>
             <div>
               <p className="py-4">Time booked: {newBooking.time}</p>
               <p className="py-4">Date booked: {newBooking.date}</p>
@@ -107,7 +116,7 @@ const UserContactInfo = () => {
             <div className="modal-action">
               <form method="dialog">
                 <button className="btn">Close</button>
-    
+
               </form>
             </div>
           </div>
