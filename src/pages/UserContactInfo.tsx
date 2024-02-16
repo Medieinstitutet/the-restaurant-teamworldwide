@@ -1,24 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
 import { NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
-import { Link } from 'react-router-dom';
-import { IConfirmedBooking } from '../models/Booking';
+import { IConfirmedBooking, NewBooking } from '../models/Booking';
 import ClipLoader from "react-spinners/ClipLoader";
+import { createCustomer } from '../helperfunctions/postcreateCustomer';
+import { API_URL, CREATE_BOOKING, RESTAURANT_ID } from '../constants/constants';
+import { openModal } from '../helperfunctions/opdenModal';
 
 
 const UserContactInfo = () => {
 
-  const [currentCapacity, setCurrentCapacity] = useState()
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
-  const [customerID, setCustomerID] = useState("")
-  const [showConfirmation, setShowConfirmation] = useState(false)
   const [fieldsFilled, setFieldsFilled] = useState(false)
   const [bookingId, setBookingId] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
   const { newBooking, addCustomerDetails } = useContext(UserInputContext)
-
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
@@ -26,45 +21,22 @@ const UserContactInfo = () => {
 
   const saveContextAndSend = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    console.log("logging submit")
     addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
     openModal()
     onSubmit()
   }
 
   const onSubmit = async () => {
-
     try {
-      setIsSubmitting(true)
-      const response = await axios.post<IConfirmedBooking>("https://school-restaurant-api.azurewebsites.net/booking/create",
-        {
-          "restaurantId": newBooking.restaurantId,
-          "date": newBooking.date,
-          "time": newBooking.time,
-          "numberOfGuests": Number(newBooking.numberOfGuests),
-          "customer": {
-            "name": newBooking.customer.name,
-            "lastname": newBooking.customer.lastname,
-            "email": newBooking.customer.email,
-            "phone": newBooking.customer.phone
-          }
-        }
-      )
+      const response = await createCustomer<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
       const bookingID = response.data.insertedId
+      console.log("this is respons" + response.data.acknowledged)
       setBookingId(bookingID)
     } catch (error) {
-      setIsSubmitting(false)
+      console.log(error)
     }
   }
 
-
-
-  const openModal = () => {
-    const modal = document.getElementById('my_modal_4') as HTMLDialogElement
-    if (modal) {
-      modal.showModal()
-    }
-  }
   const formControl = () => {
     if (createCustomerInput.name && createCustomerInput.email && createCustomerInput.lastname && createCustomerInput.phone) {
       setFieldsFilled(true)
@@ -72,7 +44,6 @@ const UserContactInfo = () => {
       setFieldsFilled(false)
     }
   }
-
 
   useEffect(() => {
     formControl()
@@ -103,7 +74,7 @@ const UserContactInfo = () => {
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
             <h3 className="font-bold text-lg">Booking confirmation</h3>
-            <p>please make a note of your booking ID for cancellations or change {!bookingId ? <ClipLoader/> : bookingId} </p>
+            <p>please make a note of your booking ID for cancellations or change {!bookingId ? <ClipLoader /> : bookingId} </p>
             <div>
               <p className="py-4">Time booked: {newBooking.time}</p>
               <p className="py-4">Date booked: {newBooking.date}</p>
@@ -116,7 +87,6 @@ const UserContactInfo = () => {
             <div className="modal-action">
               <form method="dialog">
                 <button className="btn">Close</button>
-
               </form>
             </div>
           </div>
@@ -125,5 +95,4 @@ const UserContactInfo = () => {
     </div>
   )
 }
-
 export default UserContactInfo
