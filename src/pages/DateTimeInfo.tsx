@@ -5,8 +5,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 
 import { StaticDatePicker } from '@mui/x-date-pickers';
-import { CheckForAvailabilityContext, UserInputContext } from '../contexts/userInputs';
+import { UserInputContext } from '../contexts/userInputs';
 import { checkForAvailability } from '../helperfunctions/checkforavailbility';
+import { IReceivedBookings } from '../models/Booking';
+import { API_URL, GET_ALL_BOOKINGS, RESTAURANT_ID } from '../constants/constants';
+import { get } from '../helperfunctions/get';
 
 const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
@@ -16,13 +19,11 @@ const DateTimeInfo = () => {
     const [timeBooked, setTimeBooked] = useState("")
     const [numberOfPeople, setNumberOfPeople] = useState("")
     const [fieldsFilled, setFieldsFilled] = useState(false)
+    const [fullyBookedAtSix, setFullyBookedAtSix] = useState(false)
+    const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
+
 
     const { addBookingDetails } = useContext(UserInputContext)
-    const { toggleFullyBookedAtSix,
-        fullyBookedAtSix,
-        fullyBookedAtNine,
-        toggleFullyBookedAtNine 
-    } = useContext(CheckForAvailabilityContext)
 
     const navigate = useNavigate()
 
@@ -33,7 +34,34 @@ const DateTimeInfo = () => {
     }, [selectedDate])
 
     useEffect(() => {
-        if (selectedDataFormatted) checkForAvailability(toggleFullyBookedAtNine, toggleFullyBookedAtSix, selectedDataFormatted)
+        const fetchData = async () => {
+
+            const response = await get<IReceivedBookings[]>(
+                `${API_URL}${GET_ALL_BOOKINGS}${RESTAURANT_ID}`)
+            const allBookings = response.data;
+            console.log(allBookings.length)
+            const bookingsAt18and21 = checkForAvailability(selectedDataFormatted, allBookings)
+            const bookingsAt18 = bookingsAt18and21[0]
+            const bookingsAt21 = bookingsAt18and21[1]
+            if (bookingsAt18.length > 16) {
+                setFullyBookedAtSix(true)
+            } else {
+                (bookingsAt18.length < 16)
+                setFullyBookedAtSix(false)
+            }
+            if (bookingsAt21.length > 16) {
+                setFullyBookedAtNine(true)
+            } else {
+                (bookingsAt21.length < 16)
+                setFullyBookedAtNine(false)
+            }
+
+        }
+
+
+        if (selectedDataFormatted) {
+            fetchData()
+        }
         setTimeBooked("")
     }, [selectedDataFormatted])
 

@@ -31,3 +31,8 @@ export class EditedBooking {
         public customerId: string
     ) {}
 }
+
+export interface IConfirmedBooking {
+    acknowledged: boolean,
+    insertedId: string
+}
