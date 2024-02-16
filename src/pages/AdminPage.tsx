@@ -188,7 +188,7 @@ const AdminPage = () => {
   }, [enableEdit]);
 
   return (
-    <div className="mt-16 min-h-screen">
+    <div className="mt-16 min-h-screen bg-white">
       <table className="min-w-full table-auto">
         <thead>
           <tr>
