@@ -12,8 +12,6 @@ export class NewBooking {
         }
     ) { }
 }
-
-
 export interface IReceivedBookings {
     _id: string,
     restaurantId: string,
@@ -23,7 +21,6 @@ export interface IReceivedBookings {
     customerId: string;
 
 }
-
 export class EditedBooking {
     constructor (
         public _id: string,

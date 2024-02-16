@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ContactPage = () => {
   return (
     <div className='contact min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>

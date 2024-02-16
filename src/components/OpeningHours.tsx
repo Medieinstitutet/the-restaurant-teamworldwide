@@ -9,7 +9,6 @@ export const OpeningHours = () => {
                         Wed - Sat : 11:00am - 02:00am<br />
                         Sun : 12:00pm - 00:00am<br />
                     </p>
-                    {/* <img src="src\assets\opening-hours-table.png" alt="" /> */}
                 </div>
                 <img className="logo-1 py-10" src="src\assets\gastropub.svg" alt="GASTROPUB" />
             </div>

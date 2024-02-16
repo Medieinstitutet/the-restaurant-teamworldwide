@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import HeroHeader from "./HeroHeader"
 import { motion } from "framer-motion"
 
 export const Hero = () => {
@@ -10,7 +9,6 @@ export const Hero = () => {
             </video>
             <div className="hero-content text-center mt-10">
                 <div className="max-w-lg flex flex-col gap-10">
-                    {/* <HeroHeader /> */}
                     <motion.h1
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -18,7 +16,6 @@ export const Hero = () => {
                     >
                         <img src="src\assets\bleu_horizon.svg" alt="" />
                     </motion.h1>
-                    {/* <button className="btn btn-primary mt-8">Get Started</button> */}
                     <Link to={"/booking"}>
                         <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Book</button>
                     </Link>
