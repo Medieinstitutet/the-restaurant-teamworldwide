@@ -21,11 +21,10 @@ const Gallery = () => {
     <div>
         <img src="src\assets\gaana-srinivas-kPTL_GocL3s-unsplash.jpg"/>
         </div>
-    <div>
-        <video className="gallery-vid" controls autoPlay loop muted>
+    <div className="vid-container">
+        <video className="gallery-vid" autoPlay loop muted>
         <source src="src\assets\sweet_sour_-_11631 (540p).mp4" type="video/mp4"/>
         </video>
-        {/* <img src="src\assets\mae-mu-T7heq8rawkc-unsplash.jpg" alt="TEMP placement" /> */}
         </div>
     <div>
         <img src="src\assets\mads-eneqvist-wFW38_Wzhm4-unsplash.jpg"/>
@@ -45,12 +44,11 @@ const Gallery = () => {
     <div>
         <img src="src\assets\food-photographer-jennifer-pallian-AZJjIlbZM60-unsplash.jpg"/>
         </div>
-    <div>
-    <video className="gallery-vid"controls autoPlay loop muted>
+    <div className="vid-container">
+    <video className="gallery-vid" autoPlay loop muted>
         <source src="src\assets\cocktail_-_35871 (540p).mp4" type="video/mp4"/>
         </video>
-{/*         <img src="src\assets\ionela-mat-LU2n5UrLeFo-unsplash.jpg" alt="TEMP placement" />
- */}        </div>
+       </div>
     <div>
         <img src="src\assets\jirayu-koontholjinda-gfraywnI42s-unsplash.jpg"/>
         </div>
@@ -58,9 +56,6 @@ const Gallery = () => {
         <img src="src\assets\ben-koorengevel-sDEebfEAJ_k-unsplash.jpg"/>
         </div>
     <div>
-   {/*  <video controls autoPlay loop muted>
-        <source src="src\assets\prawn_-_11699 (540p).mp4" type="video/mp4"/>
-        </video> */}
         <img src="src\assets\aliona-gumeniuk-GAauSStia3s-unsplash.jpg" alt="dessert" />
         </div>
     </section>
