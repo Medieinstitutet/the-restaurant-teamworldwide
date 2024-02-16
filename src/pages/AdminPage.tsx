@@ -4,7 +4,6 @@ import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import {
-  CheckForAvailabilityContext,
   UserInputContext,
 } from "../contexts/userInputs";
 import { checkForAvailability } from "../helperfunctions/checkforavailbility";
@@ -18,13 +17,6 @@ const AdminPage = () => {
   const [newDate, setNewDate] = useState<Dayjs | null>(dayjs("2022-04-17"));
   const [newDateFormatted, setnewDateFormatted] = useState("");
   const [togglingDate, setTogglingDate] = useState(false);
-
-  const {
-    toggleFullyBookedAtSix,
-    toggleFullyBookedAtNine,
-    fullyBookedAtSix,
-    fullyBookedAtNine,
-  } = useContext(CheckForAvailabilityContext);
 
   useEffect(() => {
     const fetchAllBookings = async () => {
@@ -73,12 +65,10 @@ const AdminPage = () => {
         )
       );
 
-      checkForAvailability(
-        toggleFullyBookedAtNine,
-        toggleFullyBookedAtSix,
+/*       checkForAvailability(
         newDateFormatted
-      );
-      {
+      ); */
+/*       {
         fullyBookedAtSix
           ? alert(newDateFormatted + "18:00 fully booked")
           : alert(newDateFormatted + "18:00 available");
@@ -87,7 +77,7 @@ const AdminPage = () => {
         fullyBookedAtNine
           ? alert(newDateFormatted + "21:00 fully booked")
           : alert(newDateFormatted + "21:00 available");
-      }
+      } */
     } else if (e.target.name === "numberOfGuests") {
       let numberOfGuests = +e.target.value;
       setEditedBooking(

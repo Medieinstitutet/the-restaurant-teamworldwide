@@ -5,7 +5,7 @@ import "../styles/main.scss"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from 'react';
-import { CheckForAvailabilityContext, ICheckForAvailability, IUserInputContext, UserInputContext } from '../contexts/userInputs';
+import { IUserInputContext, UserInputContext } from '../contexts/userInputs';
 import { NewBooking } from '../models/Booking';
 import dayjs from 'dayjs';
 
@@ -25,28 +25,14 @@ const Layout = () => {
         setUserInputState({ ...userInputState, newBooking: { ...userInputState.newBooking, customer: { name, lastname, email, phone } } })
     }
 
-    //state for availbilitycheck
-    const [availbilityState, setAvailabilityState] = useState<ICheckForAvailability>({
-        toggleFullyBookedAtSix: (bool: boolean) => { },
-        toggleFullyBookedAtNine: (bool: boolean) => { },
-        fullyBookedAtSix: false,
-        fullyBookedAtNine: false,
-    })
-
-    //problem is here we think look into these functions.
-    availbilityState.toggleFullyBookedAtNine = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtNine: bool }) }
-    availbilityState.toggleFullyBookedAtSix = (bool) => { setAvailabilityState({ ...availbilityState, fullyBookedAtSix: bool }) }
-
     return (
         <div className='font-serif'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CheckForAvailabilityContext.Provider value={availbilityState}>
-                    <UserInputContext.Provider value={userInputState}>
-                        <Navbar />
-                        <Outlet />
-                        <Footer />
-                    </UserInputContext.Provider>
-                </CheckForAvailabilityContext.Provider>
+                <UserInputContext.Provider value={userInputState}>
+                    <Navbar />
+                    <Outlet />
+                    <Footer />
+                </UserInputContext.Provider>
             </LocalizationProvider>
         </div >
     )

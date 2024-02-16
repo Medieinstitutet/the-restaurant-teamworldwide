@@ -5,8 +5,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 
 import { StaticDatePicker } from '@mui/x-date-pickers';
-import { CheckForAvailabilityContext, UserInputContext } from '../contexts/userInputs';
+import { UserInputContext } from '../contexts/userInputs';
 import { checkForAvailability } from '../helperfunctions/checkforavailbility';
+import { IReceivedBookings } from '../models/Booking';
 
 const DateTimeInfo = () => {
     const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
@@ -16,13 +17,11 @@ const DateTimeInfo = () => {
     const [timeBooked, setTimeBooked] = useState("")
     const [numberOfPeople, setNumberOfPeople] = useState("")
     const [fieldsFilled, setFieldsFilled] = useState(false)
+    const [fullyBookedAtSix, setFullyBookedAtSix] = useState(false)
+    const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
+
 
     const { addBookingDetails } = useContext(UserInputContext)
-    const { toggleFullyBookedAtSix,
-        fullyBookedAtSix,
-        fullyBookedAtNine,
-        toggleFullyBookedAtNine 
-    } = useContext(CheckForAvailabilityContext)
 
     const navigate = useNavigate()
 
@@ -33,7 +32,33 @@ const DateTimeInfo = () => {
     }, [selectedDate])
 
     useEffect(() => {
-        if (selectedDataFormatted) checkForAvailability(toggleFullyBookedAtNine, toggleFullyBookedAtSix, selectedDataFormatted)
+        const fetchData = async () => {
+
+            const response = await axios.get<IReceivedBookings[]>(
+                "https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/"
+            );
+            const allBookings = response.data;
+            const bookingsAt18and21 = checkForAvailability(selectedDataFormatted, allBookings)
+            console.log("checking double array" + bookingsAt18and21.length)
+            const bookingsAt18 = bookingsAt18and21[0]
+            const bookingsAt21 = bookingsAt18and21[1]
+            if (bookingsAt18.length > 16) {
+                setFullyBookedAtSix(true)
+            } else {  (bookingsAt18.length < 16) 
+                setFullyBookedAtSix(false)
+            }
+           if (bookingsAt21.length > 16) {
+                setFullyBookedAtNine(true)
+            } else {  (bookingsAt21.length < 16) 
+                setFullyBookedAtNine(false)
+            }
+
+        }
+
+
+        if (selectedDataFormatted) {
+        fetchData()
+        }
         setTimeBooked("")
     }, [selectedDataFormatted])
 
@@ -102,8 +127,8 @@ const DateTimeInfo = () => {
                         defaultValue={dayjs()}
                     />
                     <div className='time-buttons space-x-12'>
-                        {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
-                        {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+                          {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                        {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>} 
                     </div>
 
                     <select className="mt-12 mr-12 select select-bordered w-full max-w-xs font"
