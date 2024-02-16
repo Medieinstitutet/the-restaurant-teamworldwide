@@ -80,7 +80,7 @@ const DateTimeInfo = () => {
 
     return (
         <>
-            <div className="w-100% bg-primary h-screen lg:flex sm:flex-row">
+            <div className="w-100% bg-primary lg:flex sm:flex-row mt-16">
                 <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
                     <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
                     <h4 className='text-xl text-center'>GASTROPUB</h4>
