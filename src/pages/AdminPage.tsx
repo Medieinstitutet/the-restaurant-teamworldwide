@@ -179,7 +179,7 @@ const AdminPage = () => {
   }, [enableEdit]);
 
   return (
-    <div className="mt-16 min-h-screen bg-white">
+    <div className="mt-16 min-h-screen bg-white admin">
       <table className="min-w-full table-auto">
         <thead>
           <tr>
@@ -238,13 +238,14 @@ const AdminPage = () => {
               <td className="px-5 py-2">
                 {/* <input type="text" name="date" value={booking.date} onChange={handleSelectChange}/> */}
                 <DatePicker
+                className="date-picker"
                   disabled={!enableEdit}
                   name="date"
                   value={dayjs(booking.date)}
                   onChange={(newDate) => setNewDate(newDate)}
                 />
               </td>
-              <td className="px-5 py-2 flex justify-center gap-1">
+              <td className="px-5 py-2 flex justify-center">
                 <select
                   disabled={!enableEdit}
                   className="select select-bordered w-max max-w-xs font"
