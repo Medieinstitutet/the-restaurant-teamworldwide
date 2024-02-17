@@ -7,11 +7,12 @@ import {
   UserInputContext,
 } from "../contexts/userInputs";
 import { checkForAvailability } from "../helperfunctions/checkforavailbility";
+import { API_URL, DELETE_A_BOOKING, EDIT_A_BOOKING, GET_ALL_BOOKINGS, RESTAURANT_ID } from "../constants/constants";
 
 const AdminPage = () => {
   const [bookings, setBookings] = useState<IReceivedBookings[]>([]);
   const [editedBooking, setEditedBooking] = useState<EditedBooking>(
-    new EditedBooking("", "65c6199912ebb6ed53265ac6", "", "", 1, "")
+    new EditedBooking("", "", "", "", 1, "")
   );
   const [enableEdit, setEnableEdit] = useState(false);
   const [newDate, setNewDate] = useState<Dayjs | null>(dayjs("2022-04-17"));
@@ -22,7 +23,7 @@ const AdminPage = () => {
     const fetchAllBookings = async () => {
       try {
         const response = await axios.get<IReceivedBookings[]>(
-          "https://school-restaurant-api.azurewebsites.net/booking/restaurant/65c6199912ebb6ed53265ac6/"
+          `${API_URL}${GET_ALL_BOOKINGS}${RESTAURANT_ID}`
         );
         const allBookings = response.data;
         setBookings(allBookings);
@@ -37,7 +38,7 @@ const AdminPage = () => {
   const deleteBooking = async (id: string) => {
     try {
       await axios.delete(
-        `https://school-restaurant-api.azurewebsites.net/booking/restaurant/${id}`
+        `${API_URL}${DELETE_A_BOOKING}${id}`
       );
       setBookings(bookings.filter((booking) => booking._id !== id));
     } catch (error) {
@@ -151,7 +152,7 @@ const AdminPage = () => {
   const updateBooking = async (id: string) => {
     if (editedBooking !== undefined) {
       await axios.put<IReceivedBookings>(
-        `https://school-restaurant-api.azurewebsites.net/booking/update/${id}`,
+        `${API_URL}${EDIT_A_BOOKING}${id}`,
         {
           id: id,
           restaurantId: "65c6199912ebb6ed53265ac6",
