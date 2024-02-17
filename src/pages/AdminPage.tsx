@@ -19,7 +19,7 @@ const AdminPage = () => {
   const [newDateFormatted, setnewDateFormatted] = useState("");
   const [fullyBookedAtSix, setFullyBookedAtSix] = useState(false)
   const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
-  const [enableDateChange, setEnableDateChange]= useState(false)
+  const [enableDateChange, setEnableDateChange] = useState(false)
 
 
   useEffect(() => {
@@ -53,41 +53,7 @@ const AdminPage = () => {
   useEffect(() => {
     console.log(editedBooking)
 
-    if(fullyBookedAtNine && editedBooking.time === "21:00") {
-      alert("We are fully booked at 21:00 this day, please choose another time or date")
-      return
-    }
-    if(fullyBookedAtSix && editedBooking.time === "18:00") {
-      alert("We are fully booked at 18:00 this day, please choose another time or date")
-      return
-    }
-
-    const updateBooking = async () => {
-      try {
-        await axios.put<IReceivedBookings>(
-          `${API_URL}${EDIT_A_BOOKING}${editedBooking._id}`,
-          {
-            id: editedBooking._id,
-            restaurantId: RESTAURANT_ID,
-            date: editedBooking.date,
-            time: editedBooking.time,
-            numberOfGuests: editedBooking.numberOfGuests,
-            customerId: editedBooking.customerId,
-          }
-        )
-        console.log("update booking run");
-        const bookingUpdated = bookings.map((booking) => {
-        if(booking._id === editedBooking._id) {
-          return editedBooking
-        } return booking
-        })
-        setBookings(bookingUpdated)
-      } catch (error) {
-        error
-      }
-    }
-    updateBooking()
-  }, [editedBooking])
+  }, [])
 
 
   const handleDatechange = (newDate: Dayjs | null, _id: string) => {
@@ -115,7 +81,8 @@ const AdminPage = () => {
   }
 
 
-  useEffect(() => {
+  const handleSubmit = () => {
+    console.log(editedBooking)
     const updateCapacity = async (id: string) => {
 
       const bookingsAt18and21 = checkForAvailability(
@@ -140,11 +107,44 @@ const AdminPage = () => {
       }
     }
     updateCapacity(editedBooking._id)
-  }), [editedBooking.date]
 
 
+    if (fullyBookedAtNine && editedBooking.time === "21:00") {
+      alert("We are fully booked at 21:00 this day, please choose another time or date")
+      return
+    }
+    if (fullyBookedAtSix && editedBooking.time === "18:00") {
+      alert("We are fully booked at 18:00 this day, please choose another time or date")
+      return
+    }
 
-
+    const updateBooking = async () => {
+      try {
+        await axios.put<IReceivedBookings>(
+          `${API_URL}${EDIT_A_BOOKING}${editedBooking._id}`,
+          {
+            id: editedBooking._id,
+            restaurantId: RESTAURANT_ID,
+            date: editedBooking.date,
+            time: editedBooking.time,
+            numberOfGuests: editedBooking.numberOfGuests,
+            customerId: editedBooking.customerId,
+          }
+        )
+        console.log("update booking run");
+        const bookingUpdated = bookings.map((booking) => {
+          if (booking._id === editedBooking._id) {
+            return editedBooking
+          } return booking
+        })
+        setBookings(bookingUpdated)
+      } catch (error) {
+        error
+      }
+    }
+    updateBooking()
+    setEnableEdit(false)
+  }
 
 
 
@@ -167,77 +167,157 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => (
-            <tr key={booking._id} className="border-t">
-              <td className="px-5 py-2">
-                <button onClick={() => deleteBooking(booking._id)}>
-                  delete
-                </button>
-              </td>
-              {/* hittar inte editBooking */}
-              {/* <td className='px-5 py-2'>
+          {enableEdit ? (
+            <tr key={editedBooking._id} className="border-t">
+                <td className="px-5 py-2">
+                  <button onClick={() => deleteBooking(editedBooking._id)}>
+                    delete
+                  </button>
+                </td>
+                <td className="px-5 py-2">
+                  {enableEdit ?
+                    <button
+                      id="edit-button"
+                      onClick={() => handleSubmit()}
+                    >
+                      Save
+                    </button>
+                    :
+                    <button 
+                      id="edit-button"
+                      onClick={() => toggleEnableEdit(editedBooking._id)}
+                    >
+                      Edit
+                    </button>
+                  }
+                </td>
+                <td className="px-5 py-2">{editedBooking._id}</td>
+                <td className="px-5 py-2">
+                  {/* <input type="text" name="date" value={booking.date} onChange={handleSelectChange}/> */}
+                  <DatePicker
+                    disabled={!enableEdit}
+                    name="date"
+                    value={dayjs(editedBooking.date)}
+                    onChange={(newDate) => handleDatechange(newDate, editedBooking._id)}
+                  />
+                </td>
+                <td className="px-5 py-2 flex justify-center gap-1">
+                  <select
+                    disabled={!enableEdit}
+                    className="select select-bordered w-max max-w-xs font"
+                    name="time"
+                    value={editedBooking.time}
+                    onChange={(e) =>
+                      handleTimechange(editedBooking._id, e.target.value)
+                    }
+                  >
+                    <option value={"18:00"}>18:00</option>
+                    <option value={"21:00"}>21:00</option>
+                  </select>
+                </td>
+                <td className="px-5 py-2 text-center">
+                  <select
+                    disabled={!enableEdit}
+                    className="select select-bordered w-max max-w-xs font"
+                    name="numberOfGuests"
+                    value={editedBooking.numberOfGuests}
+                    onChange={(e) =>
+                      handleNumberOfPeopleChange(editedBooking._id, e.target.value)
+                    }
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                  </select>
+                </td>
+                <td className="px-5 py-2">{editedBooking.customerId}</td>
+              </tr>
+
+
+          ) :
+          (
+            bookings.map((booking) => (
+              <tr key={booking._id} className="border-t">
+                <td className="px-5 py-2">
+                  <button onClick={() => deleteBooking(booking._id)}>
+                    delete
+                  </button>
+                </td>
+                {/* hittar inte editBooking */}
+                {/* <td className='px-5 py-2'>
                 <button onClick={() => editBooking()}>Edit</button>
               </td> */}
-              {/* <td className='px-5 py-2'>{booking._id}</td>
+                {/* <td className='px-5 py-2'>{booking._id}</td>
               <td className='px-5 py-2'>{booking.date}</td>
               <td className='px-5 py-2'>{booking.time}</td>
               <td className='px-5 py-2 text-center'>{booking.numberOfGuests}</td>
               <td className='px-5 py-2'>{booking.customerId}</td> */}
-              <td className="px-5 py-2">
-                <button
-                  id="edit-button"
-                  onClick={() => toggleEnableEdit(booking._id)}
-                >
-                  {enableEdit ? "Save" : "Edit"}
-                </button>
-              </td>
-              <td className="px-5 py-2">{booking._id}</td>
-              <td className="px-5 py-2">
-                {/* <input type="text" name="date" value={booking.date} onChange={handleSelectChange}/> */}
-                <DatePicker
-                  disabled={!enableEdit}
-                  name="date"
-                  value={dayjs(booking.date)}
-                  onChange={(newDate) => handleDatechange(newDate, booking._id)}
-                />
-              </td>
-              <td className="px-5 py-2 flex justify-center gap-1">
-                <select
-                  disabled={enableDateChange}
-                  className="select select-bordered w-max max-w-xs font"
-                  name="time"
-                  value={booking.time}
-                  onChange={(e) =>
-                    handleTimechange(booking._id, e.target.value)
+                <td className="px-5 py-2">
+                  {enableEdit ?
+                    <button
+                      id="edit-button"
+                      onClick={() => handleSubmit()}
+                    >
+                      Save
+                    </button>
+                    :
+                    <button
+                      id="edit-button"
+                      onClick={() => toggleEnableEdit(booking._id)}
+                    >
+                      Edit
+                    </button>
                   }
-                >
-                  <option value={"18:00"}>18:00</option>
-                  <option value={"21:00"}>21:00</option>
-                </select>
-              </td>
-              <td className="px-5 py-2 text-center">
-                <select
-                  disabled={!enableEdit}
-                  className="select select-bordered w-max max-w-xs font"
-                  name="numberOfGuests"
-                  value={booking.numberOfGuests}
-                  onChange={(e) =>
-                    handleNumberOfPeopleChange(booking._id, e.target.value)
-                  }
-                >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                </select>
-              </td>
-              <td className="px-5 py-2">{booking.customerId}</td>
-            </tr>
-          ))}
-          {/* </tr> */}
-          {/* )} */}
+                </td>
+                <td className="px-5 py-2">{booking._id}</td>
+                <td className="px-5 py-2">
+                  {/* <input type="text" name="date" value={booking.date} onChange={handleSelectChange}/> */}
+                  <DatePicker
+                    disabled={!enableEdit}
+                    name="date"
+                    value={dayjs(booking.date)}
+                    onChange={(newDate) => handleDatechange(newDate, booking._id)}
+                  />
+                </td>
+                <td className="px-5 py-2 flex justify-center gap-1">
+                  <select
+                    disabled={!enableEdit}
+                    className="select select-bordered w-max max-w-xs font"
+                    name="time"
+                    value={booking.time}
+                    onChange={(e) =>
+                      handleTimechange(booking._id, e.target.value)
+                    }
+                  >
+                    <option value={"18:00"}>18:00</option>
+                    <option value={"21:00"}>21:00</option>
+                  </select>
+                </td>
+                <td className="px-5 py-2 text-center">
+                  <select
+                    disabled={!enableEdit}
+                    className="select select-bordered w-max max-w-xs font"
+                    name="numberOfGuests"
+                    value={booking.numberOfGuests}
+                    onChange={(e) =>
+                      handleNumberOfPeopleChange(booking._id, e.target.value)
+                    }
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                  </select>
+                </td>
+                <td className="px-5 py-2">{booking.customerId}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
