@@ -14,6 +14,7 @@ const UserContactInfo = () => {
   const [fieldsFilled, setFieldsFilled] = useState(false)
   const [bookingId, setBookingId] = useState("")
   const { newBooking, addCustomerDetails } = useContext(UserInputContext)
+  const [isAgreed, setIsAgreed] = useState(false);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
@@ -38,7 +39,7 @@ const UserContactInfo = () => {
   }
 
   const formControl = () => {
-    if (createCustomerInput.name && createCustomerInput.email && createCustomerInput.lastname && createCustomerInput.phone) {
+    if (createCustomerInput.name && createCustomerInput.email && createCustomerInput.lastname && createCustomerInput.phone && isAgreed) {
       setFieldsFilled(true)
     } else {
       setFieldsFilled(false)
@@ -47,7 +48,11 @@ const UserContactInfo = () => {
 
   useEffect(() => {
     formControl()
-  }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone])
+  }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone, isAgreed])
+
+  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    setIsAgreed(e.target.checked);
+  };
 
   return (
     <div className='contact-info min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
@@ -70,7 +75,13 @@ const UserContactInfo = () => {
           <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
         </div>
 
-        <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Review details</button>
+    <label htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
+        <input 
+        type='checkbox' 
+        id='agree-checkbox'
+        checked= {isAgreed}
+        onChange={handleCheckBox} />
+        <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
             <h3 className="font-bold text-lg">Booking confirmation</h3>
