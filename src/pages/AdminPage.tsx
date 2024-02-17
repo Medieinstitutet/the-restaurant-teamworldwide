@@ -56,14 +56,11 @@ const AdminPage = () => {
   }, [])
 
 
-  const handleDatechange = (newDate: Dayjs | null, _id: string) => {
+  const handleDatechange = (newDate: Dayjs | null) => {
     if (newDate) {
       const newDateToISO = newDate?.format('YYYY-MM-DD')
-      const bookingToEdit = bookings.find((booking) => booking._id === _id)
-      if (bookingToEdit)
         setEditedBooking({...editedBooking, date: newDateToISO})
-    }
-  }
+  }}
 
   const handleTimechange = (_id: string, selectedValue: string) => {
     console.log("selectedvalue" + selectedValue)
@@ -82,15 +79,15 @@ const AdminPage = () => {
 
 
   const handleSubmit = () => {
-    console.log(editedBooking)
-    const updateCapacity = async (id: string) => {
+    const updateCapacity = async (_id: string) => {
       const bookingsAt18and21 = checkForAvailability(
         editedBooking.date, bookings
       )
+      console.log("this is the date to be checked" + editedBooking.date)
       const bookingsAt18 = bookingsAt18and21[0]
       const bookingsAt21 = bookingsAt18and21[1]
-      console.log("bookings at 18 on current date = " + bookingsAt18.length)
-      console.log("bookings at 21 on current date = " + bookingsAt21.length)
+      console.log("HELOO THIS IS THE bookings at 18 on current date = " + bookingsAt18.length)
+      console.log("HELLO THIS IS THE bookings at 21 on current date = " + bookingsAt21.length)
 
       if (bookingsAt18.length >= 16) {
         setFullyBookedAtSix(true)
@@ -107,12 +104,16 @@ const AdminPage = () => {
     }
     updateCapacity(editedBooking._id)
 
+    console.log("this is the time outside of the bracket" + editedBooking.time)
 
-    if (fullyBookedAtNine && editedBooking.time == "21:00") {
+    if (fullyBookedAtNine && editedBooking.time === "21:00") {
+      console.log("this is the time " + typeof(editedBooking.time))
       alert("We are fully booked at 21:00 this day, please choose another time or date")
+     
       return
     }
-    if (fullyBookedAtSix && editedBooking.time == "18:00") {
+    if (fullyBookedAtSix && editedBooking.time === "18:00") {
+      console.log("this is the time " + typeof(editedBooking.time))
       alert("We are fully booked at 18:00 this day, please choose another time or date")
       return
     }
@@ -141,7 +142,12 @@ const AdminPage = () => {
         error
       }
     }
-    if(!fullyBookedAtNine && !fullyBookedAtSix) updateBooking()
+
+    if(!editedBooking.date) {
+      alert("please edit a date in order to book a new time")
+      return
+    }
+    updateBooking()
 
     setEnableEdit(false)
   }
@@ -149,7 +155,7 @@ const AdminPage = () => {
 
 
   const toggleEnableEdit = (id: string, customerId: string) => {
-    setEditedBooking(new EditedBooking(id, RESTAURANT_ID, "", "", 0, customerId))
+    setEditedBooking(new EditedBooking(id, RESTAURANT_ID, "", "18:00", 1, customerId))
     setEnableEdit(!enableEdit);
   };
 
@@ -186,7 +192,7 @@ const AdminPage = () => {
                     :
                     <button 
                       id="edit-button"
-                      onClick={() => toggleEnableEdit(editedBooking._id)}
+                      onClick={() => toggleEnableEdit(editedBooking._id, editedBooking.customerId)}
                     >
                       Edit
                     </button>
@@ -199,7 +205,7 @@ const AdminPage = () => {
                     disabled={!enableEdit}
                     name="date"
                     value={dayjs(editedBooking.date)}
-                    onChange={(newDate) => handleDatechange(newDate, editedBooking._id)}
+                    onChange={(newDate) => handleDatechange(newDate)}
                   />
                 </td>
                 <td className="px-5 py-2 flex justify-center gap-1">
@@ -280,7 +286,7 @@ const AdminPage = () => {
                     disabled={!enableEdit}
                     name="date"
                     value={dayjs(booking.date)}
-                    onChange={(newDate) => handleDatechange(newDate, booking._id)}
+                    onChange={(newDate) => handleDatechange(newDate)}
                   />
                 </td>
                 <td className="px-5 py-2 flex justify-center gap-1">
