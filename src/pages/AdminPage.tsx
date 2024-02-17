@@ -194,7 +194,7 @@ const AdminPage = () => {
   }, [enableEdit]);
 
   return (
-    <div className="mt-16 min-h-screen bg-white">
+    <div className="mt-16 min-h-screen bg-white admin">
       <table className="min-w-full table-auto">
         <thead>
           <tr>
@@ -287,15 +287,6 @@ const AdminPage = () => {
                     delete
                   </button>
                 </td>
-                {/* hittar inte editBooking */}
-                {/* <td className='px-5 py-2'>
-                <button onClick={() => editBooking()}>Edit</button>
-              </td> */}
-                {/* <td className='px-5 py-2'>{booking._id}</td>
-              <td className='px-5 py-2'>{booking.date}</td>
-              <td className='px-5 py-2'>{booking.time}</td>
-              <td className='px-5 py-2 text-center'>{booking.numberOfGuests}</td>
-              <td className='px-5 py-2'>{booking.customerId}</td> */}
                 <td className="px-5 py-2">
                   {enableEdit ?
                     <button
@@ -340,9 +331,8 @@ const AdminPage = () => {
                 <td className="px-5 py-2 text-center">
                   <select
                     disabled={!enableEdit}
-                    className="select select-bordered w-max max-w-xs font"
-                    name="numberOfGuests"
-                    value={booking.numberOfGuests}
+
+                              value={booking.numberOfGuests}
                     onChange={(e) =>
                       handleNumberOfPeopleChange(booking._id, e.target.value)
                     }
@@ -364,5 +354,6 @@ const AdminPage = () => {
     </div>
   );
 };
+
 
 export default AdminPage;
