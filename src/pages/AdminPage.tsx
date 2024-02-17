@@ -61,7 +61,7 @@ const AdminPage = () => {
       const newDateToISO = newDate?.format('YYYY-MM-DD')
       const bookingToEdit = bookings.find((booking) => booking._id === _id)
       if (bookingToEdit)
-        setEditedBooking(new EditedBooking(bookingToEdit?._id, bookingToEdit?.restaurantId, newDateToISO, bookingToEdit?.time, bookingToEdit?.numberOfGuests, bookingToEdit?.customerId))
+        setEditedBooking({...editedBooking, date: newDateToISO})
     }
   }
 
@@ -70,21 +70,20 @@ const AdminPage = () => {
     let newTime = selectedValue
     const bookingToEdit = bookings.find((booking) => booking._id === _id)
     if (bookingToEdit)
-      setEditedBooking(new EditedBooking(bookingToEdit?._id, bookingToEdit?.restaurantId, bookingToEdit.date, newTime, bookingToEdit?.numberOfGuests, bookingToEdit?.customerId))
+      setEditedBooking({...editedBooking, time: newTime})
   }
 
   const handleNumberOfPeopleChange = (_id: string, selectedValue: string) => {
     let newNumberOfPeople = +selectedValue
     const bookingToEdit = bookings.find((booking) => booking._id === _id)
     if (bookingToEdit)
-      setEditedBooking(new EditedBooking(bookingToEdit?._id, bookingToEdit?.restaurantId, bookingToEdit.date, bookingToEdit.time, newNumberOfPeople, bookingToEdit?.customerId))
+      setEditedBooking({...editedBooking, numberOfGuests: newNumberOfPeople})
   }
 
 
   const handleSubmit = () => {
     console.log(editedBooking)
     const updateCapacity = async (id: string) => {
-
       const bookingsAt18and21 = checkForAvailability(
         editedBooking.date, bookings
       )
@@ -109,11 +108,11 @@ const AdminPage = () => {
     updateCapacity(editedBooking._id)
 
 
-    if (fullyBookedAtNine && editedBooking.time === "21:00") {
+    if (fullyBookedAtNine && editedBooking.time == "21:00") {
       alert("We are fully booked at 21:00 this day, please choose another time or date")
       return
     }
-    if (fullyBookedAtSix && editedBooking.time === "18:00") {
+    if (fullyBookedAtSix && editedBooking.time == "18:00") {
       alert("We are fully booked at 18:00 this day, please choose another time or date")
       return
     }
@@ -142,13 +141,15 @@ const AdminPage = () => {
         error
       }
     }
-    updateBooking()
+    if(!fullyBookedAtNine && !fullyBookedAtSix) updateBooking()
+
     setEnableEdit(false)
   }
 
 
 
-  const toggleEnableEdit = (id: string) => {
+  const toggleEnableEdit = (id: string, customerId: string) => {
+    setEditedBooking(new EditedBooking(id, RESTAURANT_ID, "", "", 0, customerId))
     setEnableEdit(!enableEdit);
   };
 
@@ -266,7 +267,7 @@ const AdminPage = () => {
                     :
                     <button
                       id="edit-button"
-                      onClick={() => toggleEnableEdit(booking._id)}
+                      onClick={() => toggleEnableEdit(booking._id, booking.customerId)}
                     >
                       Edit
                     </button>
