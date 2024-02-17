@@ -21,6 +21,16 @@ export interface IReceivedBookings {
     customerId: string;
 
 }
+
+export interface IAdminBookings {
+    _id: string,
+    restaurantId: string,
+    date: string,
+    time: string,
+    numberOfGuests: number;
+    customerId: string;
+    enableEdit: boolean;
+}
 export class EditedBooking {
     constructor (
         public _id: string,
