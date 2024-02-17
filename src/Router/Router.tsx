@@ -45,9 +45,9 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element:
-        /*   <AuthRoute> */
+           <AuthRoute> 
             <AdminPage />
-/*           </AuthRoute> */
+           </AuthRoute> 
       },
       {
         path: "/login",

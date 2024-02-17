@@ -55,7 +55,6 @@ const DateTimeInfo = () => {
                 (bookingsAt21.length <= 16)
                 setFullyBookedAtNine(false)
             }
-
         }
 
 
