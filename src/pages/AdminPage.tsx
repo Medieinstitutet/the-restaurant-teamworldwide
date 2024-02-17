@@ -18,6 +18,7 @@ const AdminPage = () => {
   const [newDate, setNewDate] = useState<Dayjs | null>(dayjs("2022-04-17"));
   const [newDateFormatted, setnewDateFormatted] = useState("");
   const [togglingDate, setTogglingDate] = useState(false);
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     const fetchAllBookings = async () => {
@@ -25,6 +26,10 @@ const AdminPage = () => {
         const response = await axios.get<IReceivedBookings[]>(
           `${API_URL}${GET_ALL_BOOKINGS}${RESTAURANT_ID}`
         );
+        const sortedBookings = response.data.sort((a, b) =>
+          sortOrder === 'asc' ? dayjs(a.date).unix() - dayjs(b.date).unix() : dayjs(b.date).unix() - dayjs(a.date).unix()
+          );
+          setBookings(sortedBookings);
         const allBookings = response.data;
         setBookings(allBookings);
         console.log(allBookings);
@@ -33,7 +38,11 @@ const AdminPage = () => {
       }
     };
     fetchAllBookings();
-  }, []);
+  }, [sortOrder]);
+
+   const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+   };
 
   const deleteBooking = async (id: string) => {
     try {
@@ -183,7 +192,7 @@ const AdminPage = () => {
       <table className="min-w-full table-auto">
         <thead>
           <tr>
-            <th className="px-5 py-2"></th>
+            <th className="px-5 py-2"><button onClick={toggleSortOrder}>Sort by date {sortOrder === 'asc' ? 'Ascending' : 'Descending' }</button></th>
             <th className="px-5 py-2"></th>
             <th className="px-5 py-2">Booking ID</th>
             <th className="px-5 py-2">Date</th>
