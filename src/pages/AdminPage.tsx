@@ -308,6 +308,7 @@ const AdminPage = () => {
                 <td className="px-5 py-2">
                   {/* <input type="text" name="date" value={booking.date} onChange={handleSelectChange}/> */}
                   <DatePicker
+                    className="date-picker"
                     disabled={!enableEdit}
                     name="date"
                     value={dayjs(booking.date)}
@@ -331,8 +332,8 @@ const AdminPage = () => {
                 <td className="px-5 py-2 text-center">
                   <select
                     disabled={!enableEdit}
-
-                              value={booking.numberOfGuests}
+                    className="select select-bordered w-max max-w-xs font"
+                    value={booking.numberOfGuests}
                     onChange={(e) =>
                       handleNumberOfPeopleChange(booking._id, e.target.value)
                     }
