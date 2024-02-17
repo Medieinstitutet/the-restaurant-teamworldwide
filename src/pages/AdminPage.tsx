@@ -331,9 +331,8 @@ const AdminPage = () => {
                 <td className="px-5 py-2 text-center">
                   <select
                     disabled={!enableEdit}
-                    className="select select-bordered w-max max-w-xs font"
-                    name="numberOfGuests"
-                    value={booking.numberOfGuests}
+
+                              value={booking.numberOfGuests}
                     onChange={(e) =>
                       handleNumberOfPeopleChange(booking._id, e.target.value)
                     }
@@ -350,7 +349,6 @@ const AdminPage = () => {
               </tr>
             ))
           )}
-                
         </tbody>
       </table>
     </div>

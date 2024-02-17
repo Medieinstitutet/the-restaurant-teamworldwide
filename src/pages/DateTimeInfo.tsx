@@ -43,16 +43,16 @@ const DateTimeInfo = () => {
             const bookingsAt18and21 = checkForAvailability(selectedDataFormatted, allBookings)
             const bookingsAt18 = bookingsAt18and21[0]
             const bookingsAt21 = bookingsAt18and21[1]
-            if (bookingsAt18.length > 16) {
+            if (bookingsAt18.length >= 16) {
                 setFullyBookedAtSix(true)
             } else {
-                (bookingsAt18.length < 16)
+                (bookingsAt18.length <= 16)
                 setFullyBookedAtSix(false)
             }
-            if (bookingsAt21.length > 16) {
+            if (bookingsAt21.length >= 16) {
                 setFullyBookedAtNine(true)
             } else {
-                (bookingsAt21.length < 16)
+                (bookingsAt21.length <= 16)
                 setFullyBookedAtNine(false)
             }
 
