@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import { Button } from "./Button"
 
 export const Hero = () => {
     return (
@@ -16,9 +16,7 @@ export const Hero = () => {
                     >
                         <img src="src\assets\bleu_horizon.svg" alt="" />
                     </motion.h1>
-                    <Link to={"/booking"}>
-                        <button className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Book</button>
-                    </Link>
+                    < Button linkTo={"/booking"} children={"Book now"} size={"lg"} color={"light"} />
                 </div>
             </div>
         </div>

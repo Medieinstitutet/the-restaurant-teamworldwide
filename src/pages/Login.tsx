@@ -20,7 +20,7 @@ const Login = () => {
             })
     }
     return (
-        <div>
+        <div className='mt-16'>
             <h1>login</h1>
             <button onClick={(() => signInWithGoogle())} className='btn' disabled={authing}>Login</button>
         </div>

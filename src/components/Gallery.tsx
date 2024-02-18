@@ -1,5 +1,7 @@
 /* import bleuHorizon from '../assets/bleuHorizon.png'; */
 
+import { Button } from "./Button";
+
 const Gallery = () => {
 
     return(
