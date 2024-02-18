@@ -55,11 +55,14 @@ const Navbar = () => {
                         <span className="badge badge-xs badge-primary indicator-item"></span>
                     </div>
                 </button> */}
-                <Button linkTo={'/booking'} children={'Book'} size={'md'} color={'dark'} />
-                {displayLogout &&
-                    <div className="navbar-center">
-                        <a className="btn btn-ghost text-xl" onClick={(() => signOut(auth))}>SignOut</a>
-                    </div>
+                {/* <Button linkTo={'/booking'} children={'Book'} size={'md'} color={'dark'} /> */}
+                {displayLogout ?
+                //    <div className="navbar-center">
+                //         <a className="btn btn-ghost text-xl" onClick={(() => signOut(auth))}>SignOut</a>
+                //     </div>
+                    <Button linkTo={''} children={'Sign out'} size={'md'} color={'dark'} event={() => signOut(auth)} />
+                    :
+                    <Button linkTo={'/booking'} children={'Book'} size={'md'} color={'dark'} />
                 }
             </div>
         </div>

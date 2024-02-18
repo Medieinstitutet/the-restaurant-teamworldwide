@@ -5,7 +5,8 @@ interface IBtnProps {
     children: string,
     className?: string, 
     size: "md" | "lg" | "xl",
-    color: "light" | "dark"
+    color: "light" | "dark",
+    event?: () => void;
 }
 
 const style = {
@@ -20,11 +21,13 @@ const style = {
     }
 }
 
-export const Button = ({linkTo, children, className, size = "md", color = "light"}: IBtnProps) => {
+export const Button = ({linkTo, children, className, size = "md", color = "light", event}: IBtnProps) => {
     return (
         <Link to={linkTo}>
             <button
-                className={`btn self-center ${className} ${style.sizes[size]} ${style.colors[color]}`}>
+                className={`btn self-center ${className} ${style.sizes[size]} ${style.colors[color]}`}
+                onClick={event}
+            >
                 {children}
             </button>
         </Link>
