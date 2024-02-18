@@ -5,7 +5,7 @@ import { IConfirmedBooking, NewBooking } from '../models/Booking';
 import ClipLoader from "react-spinners/ClipLoader";
 import { postCustomer } from '../helperfunctions/postCustomer';
 import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../constants/constants';
-import { openModal } from '../helperfunctions/opdenModal';
+import { openModal } from '../helperfunctions/openModal';
 import { postBooking } from '../helperfunctions/postBooking';
 
 

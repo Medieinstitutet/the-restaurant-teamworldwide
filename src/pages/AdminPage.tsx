@@ -5,6 +5,8 @@ import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { checkForAvailability } from "../helperfunctions/checkforavailbility";
 import { API_URL, DELETE_A_BOOKING, EDIT_A_BOOKING, GET_ALL_BOOKINGS, RESTAURANT_ID } from "../constants/constants";
+import AdminCustomer from "../components/AdminCustomer";
+import { CustomerResponse } from "../models/Customer";
 
 
 const AdminPage = () => {
@@ -99,7 +101,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     updateCapacity()
-  },[editedBooking.time, editedBooking.date])
+  }, [editedBooking.time, editedBooking.date])
 
   const handleSubmit = () => {
     if (fullyBookedAtNine && editedBooking.time === "21:00") {
@@ -151,6 +153,12 @@ const AdminPage = () => {
   useEffect(() => {
     console.log(bookings);
   }, [enableEdit]);
+
+
+
+  /*   const fetchCustomer = (customerId) => {
+  
+    } */
 
   return (
     <div className="mt-16 min-h-screen bg-white admin">
@@ -305,7 +313,10 @@ const AdminPage = () => {
                       <option>6</option>
                     </select>
                   </td>
-                  <td className="px-5 py-2">{booking.customerId}</td>
+                  <td className="px-5 py-2">
+                    <AdminCustomer customerID={booking.customerId}
+                    />
+                  </td>
                 </tr>
               ))
             )}
