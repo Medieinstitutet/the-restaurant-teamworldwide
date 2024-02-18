@@ -10,9 +10,6 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-
-
-//on open, renders a spinner until the customer data is loaded. 
 interface ICustomerInfo {
     customerID: string
 }
@@ -27,7 +24,7 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
+};
 
 const AdminCustomer = ({ customerID }: ICustomerInfo) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +38,7 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
     const handleClose = () => setOpen(false);
 
 
-     const fetchCustomer = async (customerID: string) => {
+    const fetchCustomer = async (customerID: string) => {
         console.log(customerID)
         try {
 
@@ -62,35 +59,41 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
 
     return (
         <div>
-          <Button onClick={handleOpen}>Open modal</Button>
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-              backdrop: {
-                timeout: 500,
-              },
-            }}
-          >
-            <Fade in={open}>
-              <Box sx={style}>
-                <Typography id="transition-modal-title" variant="h6" component="h2">
-                  Name: {customer.name}
-                </Typography>
-                <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                  Lastname: {customer.lastname}
-                  Telephone: {customer.phone}
-                  Email: {customer.email}
-                </Typography>
-              </Box>
-            </Fade>
-          </Modal>
+            <Button onClick={handleOpen}>Open Customer</Button>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                {!customer ? <ClipLoader /> :
+                    <Fade in={open}>
+
+                        <Box sx={style}>
+
+                            <Typography id="transition-modal-title" variant="h6" component="h2">
+                                Name: {customer.name}
+                            </Typography>
+                            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                                Lastname: {customer.lastname}
+                                Telephone: {customer.phone}
+                                Email: {customer.email}
+                            </Typography>
+
+                        </Box>
+
+                    </Fade>
+                }
+            </Modal>
         </div>
-      );
+    );
 }
 
 export default AdminCustomer
