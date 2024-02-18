@@ -14,3 +14,7 @@ export interface Customer {
     phone: string;
     id: number
 }
+
+export interface ICreateCustomerResponse {
+    customerID: string
+}

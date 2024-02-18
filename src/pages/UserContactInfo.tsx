@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { NewCustomer } from '../models/Customer';
+import { ICreateCustomerResponse, NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
 import { IConfirmedBooking, NewBooking } from '../models/Booking';
 import ClipLoader from "react-spinners/ClipLoader";
-import { createCustomer } from '../helperfunctions/postcreateCustomer';
-import { API_URL, CREATE_BOOKING, RESTAURANT_ID } from '../constants/constants';
+import { postCustomer } from '../helperfunctions/postCustomer';
+import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../constants/constants';
 import { openModal } from '../helperfunctions/opdenModal';
+import { postBooking } from '../helperfunctions/postBooking';
 
 
 const UserContactInfo = () => {
@@ -13,8 +14,11 @@ const UserContactInfo = () => {
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
   const [fieldsFilled, setFieldsFilled] = useState(false)
   const [bookingId, setBookingId] = useState("")
-  const { newBooking, addCustomerDetails } = useContext(UserInputContext)
+  const [contextIsUpdating, setContextIsUpdating] = useState(false)
   const [isAgreed, setIsAgreed] = useState(false);
+
+  const { newBooking, addCustomerDetails } = useContext(UserInputContext)
+  
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
@@ -22,17 +26,39 @@ const UserContactInfo = () => {
 
   const saveContextAndSend = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
+    updateContextWithUserInput()
+      if (!contextIsUpdating){
+        openModal()
+        onSubmit()
+    }
+  }
+
+  const updateContextWithUserInput = () => {
+    setContextIsUpdating(true)
     addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
-    openModal()
-    onSubmit()
+    setContextIsUpdating(false)
   }
 
   const onSubmit = async () => {
+    createCustomer()
+    createBooking()
+  }
+
+  const createBooking = async () => {
     try {
-      const response = await createCustomer<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
-      const bookingID = response.data.insertedId
-      console.log("this is respons" + response.data.acknowledged)
+      const bookingResponse = await postBooking<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
+      const bookingID = bookingResponse.data.insertedId
       setBookingId(bookingID)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const createCustomer = async () => {
+    try {
+      const customerResponse = await postCustomer<ICreateCustomerResponse>(`${API_URL}${CREATE_CUSTOMER}`, new NewCustomer(newBooking.customer.name, newBooking.customer.lastname, newBooking.customer.email, newBooking.customer.phone))
+      const CustomerID = customerResponse.data
+      console.log(CustomerID + "this is the customer ID")
     } catch (error) {
       console.log(error)
     }
@@ -50,7 +76,7 @@ const UserContactInfo = () => {
     formControl()
   }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone, isAgreed])
 
-  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => { 
+  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAgreed(e.target.checked);
   };
 
@@ -75,6 +101,7 @@ const UserContactInfo = () => {
           <span className="label-text text-base font-medium text-slate-600">Phone *</span>
           <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
         </div>
+
     <div className=''>
     <input 
         type='checkbox' 
