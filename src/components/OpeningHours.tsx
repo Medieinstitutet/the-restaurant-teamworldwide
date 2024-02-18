@@ -1,6 +1,9 @@
+import { Button } from "./Button"
+
 export const OpeningHours = () => {
     return (
-        <div className="opening-hours-cont">
+        <div className="opening-hours-cont relative">
+            <Button linkTo={"/booking"} children={"Book now"} className={"absolute right-10 top-10"} size={"lg"} color={"light"}/>
             <img className="opening-hours pb-10" src="src\assets\openinghrs.png" alt="opening hours" />
   {/*           <div className="flex flex-col gap-8 py-20">
                 <div className="opening-hours-text flex flex-col gap-6 p-10 m-10">
