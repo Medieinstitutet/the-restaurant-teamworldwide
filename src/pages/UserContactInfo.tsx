@@ -14,8 +14,11 @@ const UserContactInfo = () => {
   const [createCustomerInput, setCreateCustomerInput] = useState<NewCustomer>(new NewCustomer("", "", "", ""))
   const [fieldsFilled, setFieldsFilled] = useState(false)
   const [bookingId, setBookingId] = useState("")
-  const { newBooking, addCustomerDetails } = useContext(UserInputContext)
+  const [contextIsUpdating, setContextIsUpdating] = useState(false)
   const [isAgreed, setIsAgreed] = useState(false);
+
+  const { newBooking, addCustomerDetails } = useContext(UserInputContext)
+  
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
@@ -23,16 +26,22 @@ const UserContactInfo = () => {
 
   const saveContextAndSend = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
-    addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
-    if (newBooking.customer.name === createCustomerInput.name && newBooking.customer.lastname === createCustomerInput.lastname && newBooking.customer.phone === createCustomerInput.phone && newBooking.customer.email === createCustomerInput.email) {
-      openModal()
-      onSubmit()
+    updateContextWithUserInput()
+      if (!contextIsUpdating){
+        openModal()
+        onSubmit()
     }
   }
 
+  const updateContextWithUserInput = () => {
+    setContextIsUpdating(true)
+    addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
+    setContextIsUpdating(false)
+  }
+
   const onSubmit = async () => {
-    createBooking()
     createCustomer()
+    createBooking()
   }
 
   const createBooking = async () => {
