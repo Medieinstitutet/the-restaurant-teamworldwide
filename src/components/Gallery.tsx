@@ -21,16 +21,17 @@ const Gallery = () => {
     <div>
         <img src="../../webp-img/gaana-srinivas-kPTL_GocL3s-unsplash.webp"/>
         </div>
-    <div className="vid-container">
-        <video className="gallery-vid" autoPlay loop muted>
-        <source src="../../videos/sweet_sour_-_11631 (540p).mp4" type="video/mp4"/>
-        </video>
+    <div>
+    <img src="../../webp-img/pexels-taryn-elliott-4457125.webp"/>
+
         </div>
     <div>
         <img src="../../webp-img/mads-eneqvist-wFW38_Wzhm4-unsplash.webp"/>
         </div>
     <div>
-        <img src="../../webp-img/fabio-alves-_fLgxjACz5k-unsplash (1).webp"/>
+    <video className="gallery-vid" autoPlay loop muted>
+        <source src="../../videos/pexels_videos_2832316 (1080p).mp4" type="video/mp4"/>
+        </video>
         </div>
     <div>
         <img src="../../webp-img/albert-YYZU0Lo1uXE-unsplash.webp"/>
@@ -57,6 +58,15 @@ const Gallery = () => {
         </div>
     <div>
         <img src="../../webp-img/aliona-gumeniuk-GAauSStia3s-unsplash.webp" alt="dessert" />
+        </div>
+        <div>
+        <img src="../../webp-img/pexels-aditya-bhatia-18495829.webp" alt="dessert" />
+        </div>
+        <div>
+        <img src="../../webp-img/pexels-eva-bronzini-5976098.webp" alt="dessert" />
+        </div>
+        <div>
+        <img src="../../webp-img/pexels-rachel-claire-6752167.webp" alt="dessert" />
         </div>
     </section>
     </>
