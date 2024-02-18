@@ -107,18 +107,13 @@ const DateTimeInfo = () => {
 
     return (
         <>
-            <div className="w-100% lg:flex sm:flex-row mt-16 p-10">
+            <div className="w-100% lg:flex sm:flex-row mt-16 p-7">
                 <div className='bg-black lg:h-[100%] lg:w-[30%] sm:w[100%] sm:pb-20 sm:h-[50%] text-secondary pt-24'>
-                    <h1 className='text-6xl text-center mt-12'>BLEU HORIZON</h1>
-                    <h4 className='text-xl text-center'>GASTROPUB</h4>
-                    <h4 className='text-4xl text-center mt-40'>Make your reservation today!</h4>
-                    <div className='flex justify-center space-x-8 mt-20  text-white'>
-                        <div>
-                            Your booking details:
-                            <h4>{selectedDataFormatted ? selectedDataFormatted : "Please select a date"}</h4>
-                            <h4>{timeBooked ? timeBooked : "Please select a time"}</h4>
-                            <h4>For {numberOfPeople} persons</h4>
-                        </div>
+                    <div className='w-100% flex justify-center'>
+                        <img src="../../webp-img/Bleu horizon (1).webp" alt="Bleu Horizon Logo" />
+                    </div>
+                    <div className='flex flex-col justify-center'>
+                    <h4 className='text-4xl text-center'>Make your reservation today!</h4>
                     </div>
                 </div>
 
