@@ -55,33 +55,36 @@ const UserContactInfo = () => {
   };
 
   return (
-    <div className='contact-info min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
-      <h1 className='text-neutral-50'>Your details</h1>
+    <div className='booking-background min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
+    <div className='contact-info mt-16 px-10 py-10 flex flex-col items-center gap-10 rounded-lg'>
+      <h1 className='text-slate-600'>Your details</h1>
       <div className='contact-form w-full max-w-lg flex flex-col gap-6 px-10 py-5 rounded-lg'>
         <div>
-          <span className="label-text text-neutral-50">First name *</span>
+          <span className="label-text text-base font-medium text-slate-600">First name *</span>
           <input type="text" required name="name" value={createCustomerInput.name} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text text-neutral-50">Last name *</span>
+          <span className="label-text text-base font-medium text-slate-600">Last name *</span>
           <input type="text" required name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text text-neutral-50">Email *</span>
+          <span className="label-text text-base font-medium text-slate-600">Email *</span>
           <input type="text" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
         </div>
         <div>
-          <span className="label-text text-neutral-50">Phone *</span>
+          <span className="label-text text-base font-medium text-slate-600">Phone *</span>
           <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
         </div>
-
-    <label htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
-        <input 
+    <div className=''>
+    <input 
         type='checkbox' 
         id='agree-checkbox'
+       /*  className='toggle toggle-success' */
         checked= {isAgreed}
         onChange={handleCheckBox} />
-        <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
+    <label className='ml-2' htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
+        <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center mt-6 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
+        </div>
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
             <h3 className="font-bold text-lg">Booking confirmation</h3>
@@ -104,6 +107,8 @@ const UserContactInfo = () => {
         </dialog>
       </div>
     </div>
+  </div>
+    
   )
 }
 export default UserContactInfo
