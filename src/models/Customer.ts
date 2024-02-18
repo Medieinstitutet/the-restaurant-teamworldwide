@@ -8,7 +8,7 @@ export class NewCustomer {
 };
 
 export interface CustomerResponse {
-    id: string;
+    _id: string;
     name: string;
     lastname: string;
     email: string;
@@ -21,10 +21,18 @@ export interface ICreateCustomerResponse {
 
 export class ExisitingCustomer {
     constructor (
-        public id: string,
+        public _id: string,
         public name: string,
         public lastname: string,
         public email: string,
         public phone: string
     ) {}
 };
+
+export interface EditCustomer {
+    id: string;
+    name: string;
+    lastname: string;
+    email: string;
+    phone: string;
+}
