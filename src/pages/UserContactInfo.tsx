@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { NewCustomer } from '../models/Customer';
+import { ICreateCustomerResponse, NewCustomer } from '../models/Customer';
 import { UserInputContext } from '../contexts/userInputs';
 import { IConfirmedBooking, NewBooking } from '../models/Booking';
 import ClipLoader from "react-spinners/ClipLoader";
-import { createCustomer } from '../helperfunctions/postcreateCustomer';
-import { API_URL, CREATE_BOOKING, RESTAURANT_ID } from '../constants/constants';
+import { postCustomer } from '../helperfunctions/postCustomer';
+import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../constants/constants';
 import { openModal } from '../helperfunctions/opdenModal';
+import { postBooking } from '../helperfunctions/postBooking';
 
 
 const UserContactInfo = () => {
@@ -23,16 +24,32 @@ const UserContactInfo = () => {
   const saveContextAndSend = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     addCustomerDetails(createCustomerInput.name, createCustomerInput.lastname, createCustomerInput.email, createCustomerInput.phone)
-    openModal()
-    onSubmit()
+    if (newBooking.customer.name === createCustomerInput.name && newBooking.customer.lastname === createCustomerInput.lastname && newBooking.customer.phone === createCustomerInput.phone && newBooking.customer.email === createCustomerInput.email) {
+      openModal()
+      onSubmit()
+    }
   }
 
   const onSubmit = async () => {
+    createBooking()
+    createCustomer()
+  }
+
+  const createBooking = async () => {
     try {
-      const response = await createCustomer<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
-      const bookingID = response.data.insertedId
-      console.log("this is respons" + response.data.acknowledged)
+      const bookingResponse = await postBooking<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
+      const bookingID = bookingResponse.data.insertedId
       setBookingId(bookingID)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const createCustomer = async () => {
+    try {
+      const customerResponse = await postCustomer<ICreateCustomerResponse>(`${API_URL}${CREATE_CUSTOMER}`, new NewCustomer(newBooking.customer.name, newBooking.customer.lastname, newBooking.customer.email, newBooking.customer.phone))
+      const CustomerID = customerResponse.data
+      console.log(CustomerID + "this is the customer ID")
     } catch (error) {
       console.log(error)
     }
@@ -50,7 +67,7 @@ const UserContactInfo = () => {
     formControl()
   }, [createCustomerInput.name, createCustomerInput.email, createCustomerInput.lastname, createCustomerInput.phone, isAgreed])
 
-  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => { 
+  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAgreed(e.target.checked);
   };
 
@@ -75,12 +92,12 @@ const UserContactInfo = () => {
           <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
         </div>
 
-    <label htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
-        <input 
-        type='checkbox' 
-        id='agree-checkbox'
-        checked= {isAgreed}
-        onChange={handleCheckBox} />
+        <label htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
+        <input
+          type='checkbox'
+          id='agree-checkbox'
+          checked={isAgreed}
+          onChange={handleCheckBox} />
         <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl">
