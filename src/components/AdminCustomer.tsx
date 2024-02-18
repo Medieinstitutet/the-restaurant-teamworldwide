@@ -79,12 +79,28 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
                         <Box sx={style}>
 
                             <Typography id="transition-modal-title" variant="h6" component="h2">
-                                Name: {customer.name}
+                                Details associated with your booking
                             </Typography>
                             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                                Lastname: {customer.lastname}
-                                Telephone: {customer.phone}
-                                Email: {customer.email}
+                                <label className="input input-bordered flex items-center gap-2 mb-2">
+                                    Name
+                                    <input type="text" className="grow" placeholder={customer.name} />
+                                </label>
+                                <label className="input input-bordered flex items-center gap-2 mb-2">
+                                    Lastname
+                                    <input type="text" className="grow" placeholder={customer.lastname} />
+                                </label>
+                                <label className="input input-bordered flex items-center gap-2 mb-2">
+                                    Telephone   
+                                    <input type="text" className="grow" placeholder={customer.phone} />
+                                </label>
+                                <label className="input input-bordered flex items-center gap-2 mb-2">
+                                    Email
+                                    <input type="text" className="grow" placeholder={customer.email} />
+                                </label>
+                                <Button children={'Change'} size={'medium'} color={'primary'} />
+                                <Button onClick={handleClose} children={'Cancel'} size={'medium'} color={'error'} />
+                                
                             </Typography>
 
                         </Box>
