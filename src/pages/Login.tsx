@@ -20,8 +20,8 @@ const Login = () => {
             })
     }
     return (
-        <div className='mt-16'>
-            <h1>login</h1>
+        <div className='mt-16 flex flex-col items-center gap-10 py-10'>
+            <h1 className='text-neutral-50'>Admin Login</h1>
             <button onClick={(() => signInWithGoogle())} className='btn' disabled={authing}>Login</button>
         </div>
     )
