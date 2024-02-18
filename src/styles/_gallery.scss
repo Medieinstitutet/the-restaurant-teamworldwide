@@ -47,7 +47,7 @@ body {
     margin: 0 auto;
     grid-template-columns: repeat(6, 1fr);
 /*     grid-template-rows: repeat(6, 1fr); */
-    grid-template-rows: 450px 450px 450px 450px 450px 450px 450px 450px;
+    grid-template-rows: 450px 450px 450px 450px 450px 450px 450px 450px 450px;
     gap: 16px;
 
     .gallery-vid {
@@ -72,6 +72,9 @@ body {
     > div:nth-child(12) { grid-area: 5 / 4 / 8 / 7; }
     > div:nth-child(13) { grid-area: 6 / 1 / 9 / 4;}
     > div:nth-child(14) { grid-area: 8 / 4 / 9 / 7; }
+    > div:nth-child(15) { grid-area: 9 / 1 / 10 / 3; }
+    > div:nth-child(16) { grid-area: 9 / 3 / 10 / 5; }
+    > div:nth-child(17) { grid-area: 9 / 5 / 10 / 7; }
 
     > div img {
     

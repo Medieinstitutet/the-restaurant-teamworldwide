@@ -7,14 +7,24 @@ export class NewCustomer {
     ) {}
 };
 
-export interface Customer {
+export interface CustomerResponse {
+    id: string;
     name: string;
     lastname: string;
     email: string;
     phone: string;
-    id: number
 }
 
 export interface ICreateCustomerResponse {
     customerID: string
 }
+
+export class ExisitingCustomer {
+    constructor (
+        public id: string,
+        public name: string,
+        public lastname: string,
+        public email: string,
+        public phone: string
+    ) {}
+};

@@ -5,7 +5,7 @@ import { IConfirmedBooking, NewBooking } from '../models/Booking';
 import ClipLoader from "react-spinners/ClipLoader";
 import { postCustomer } from '../helperfunctions/postCustomer';
 import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../constants/constants';
-import { openModal } from '../helperfunctions/opdenModal';
+import { openModal } from '../helperfunctions/openModal';
 import { postBooking } from '../helperfunctions/postBooking';
 
 
@@ -22,6 +22,7 @@ const UserContactInfo = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
+    updateContextWithUserInput()
   }
 
   const saveContextAndSend = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -113,9 +114,11 @@ const UserContactInfo = () => {
         <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center mt-6 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
         </div>
         <dialog id="my_modal_4" className="modal">
+
+          {!bookingId ? <ClipLoader /> :
           <div className="modal-box w-11/12 max-w-5xl">
-            <h3 className="font-bold text-lg">Booking confirmation</h3>
-            <p>please make a note of your booking ID for cancellations or change {!bookingId ? <ClipLoader /> : bookingId} </p>
+            <h3 className="font-bold text-lg mb-12">Booking confirmation</h3>
+            <p>please make a note of your booking ID for cancellations or change: {bookingId} </p>
             <div>
               <p className="py-4">Time booked: {newBooking.time}</p>
               <p className="py-4">Date booked: {newBooking.date}</p>
@@ -131,6 +134,7 @@ const UserContactInfo = () => {
               </form>
             </div>
           </div>
+          }
         </dialog>
       </div>
     </div>

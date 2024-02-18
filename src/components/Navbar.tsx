@@ -35,6 +35,7 @@ const Navbar = () => {
                         <li><Link to={"/menu"}>Menu</Link></li>
                         <li><Link to={"/gallery"}>Gallery</Link></li>
                         <li><Link to={"/contact"}>Contact</Link></li>
+                        <li><Link to={"/admin"}>Admin</Link></li>
                     </ul>
                 </div>
             </div>
