@@ -6,8 +6,6 @@ import { router } from './Router/Router.tsx'
 import { initializeApp } from "firebase/app";
 import { config } from './config/config.ts'
 
-
-
 initializeApp(config.firebaseConfig);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
