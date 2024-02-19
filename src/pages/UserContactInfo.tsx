@@ -7,6 +7,7 @@ import { postCustomer } from '../helperfunctions/postCustomer';
 import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../constants/constants';
 import { openModal } from '../helperfunctions/openModal';
 import { postBooking } from '../helperfunctions/postBooking';
+import { Link } from 'react-router-dom';
 
 
 const UserContactInfo = () => {
@@ -130,7 +131,7 @@ const UserContactInfo = () => {
             </div>
             <div className="modal-action">
               <form method="dialog">
-                <button className="btn">Close</button>
+                <Link to={"/"}><button className="btn">Close</button></Link>
               </form>
             </div>
           </div>
