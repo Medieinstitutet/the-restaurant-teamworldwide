@@ -80,16 +80,24 @@ const UserContactInfo = () => {
 
 
   useEffect(() => {
-    const storedBookingDetails = localStorage.getItem("context")
-    if (storedBookingDetails) {
-      try {
-        const storedBookingDetailsParsed: INewBooking  = JSON.parse(storedBookingDetails)
-        console.log("local storage" + storedBookingDetailsParsed.customer, storedBookingDetailsParsed.date, storedBookingDetailsParsed.time)
-        addBookingDetails(storedBookingDetailsParsed.restaurantId, storedBookingDetailsParsed.date, storedBookingDetailsParsed.time, storedBookingDetailsParsed.numberOfGuests)
-      } catch (error) {
-        console.log(error)
+    if (newBooking.numberOfGuests && newBooking.date && newBooking.time) {
+      console.log("updating local storage with " + newBooking.date, newBooking.time, newBooking.numberOfGuests)
+      localStorage.setItem("context", JSON.stringify(newBooking))
+    }
+    if (!newBooking.numberOfGuests && !newBooking.date && !newBooking.time) {
+      console.log("fetching localstorage....")
+      const storedBookingDetails = localStorage.getItem("context")
+      if (storedBookingDetails) {
+        try {
+          const storedBookingDetailsParsed: INewBooking = JSON.parse(storedBookingDetails)
+          console.log("local storage" + storedBookingDetailsParsed.numberOfGuests, storedBookingDetailsParsed.date, storedBookingDetailsParsed.time)
+          addBookingDetails(storedBookingDetailsParsed.restaurantId, storedBookingDetailsParsed.date, storedBookingDetailsParsed.time, storedBookingDetailsParsed.numberOfGuests)
+        } catch (error) {
+          console.log(error)
+        }
       }
-    }}, [])
+    }
+  }, [])
 
   const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAgreed(e.target.checked);

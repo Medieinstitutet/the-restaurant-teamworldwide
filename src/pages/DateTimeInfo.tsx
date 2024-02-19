@@ -87,14 +87,10 @@ const DateTimeInfo = () => {
         setNineSelected(true)
     }
 
-    useEffect(() => {
-        localStorage.setItem("context", JSON.stringify(newBooking))
-    })
-
     const handleUserInput = () => {
-        addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
+        addBookingDetails(RESTAURANT_ID, selectedDataFormatted, timeBooked, +numberOfPeople)
         navigate("/contactinfo")
-    }
+    } 
 
     const formControl = () => {
         if (timeBooked && selectedDataFormatted && numberOfPeople) {
