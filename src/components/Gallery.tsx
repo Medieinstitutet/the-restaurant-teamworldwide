@@ -59,7 +59,7 @@ const Gallery = () => {
         <img src="../../webp-img/ben-koorengevel-sDEebfEAJ_k-unsplash.webp"/>
         </div>
     <div>
-        <img src="../../webp-img/aliona-gumeniuk-GAauSStia3s-unsplash.webp" alt="dessert" />
+        <img src="../../webp-img/food-5282718_1280.webp" alt="dessert" />
         </div>
         <div>
         <img src="../../webp-img/pexels-aditya-bhatia-18495829.webp" alt="dessert" />
