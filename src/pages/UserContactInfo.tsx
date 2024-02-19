@@ -8,6 +8,9 @@ import { API_URL, CREATE_BOOKING, CREATE_CUSTOMER, RESTAURANT_ID } from '../cons
 import { openModal } from '../helperfunctions/openModal';
 import { postBooking } from '../helperfunctions/postBooking';
 import { Link } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
+
 
 
 const UserContactInfo = () => {
@@ -109,19 +112,23 @@ const UserContactInfo = () => {
         <h1 className='text-slate-600'>Your details</h1>
         <div className='contact-form w-full max-w-lg flex flex-col gap-6 px-10 py-5 rounded-lg'>
           <div>
-            <span className="label-text text-base font-medium text-slate-600">First name *</span>
-            <input type="text" required name="name" value={createCustomerInput.name} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+            <span className="label-text text-base font-medium text-slate-600 mr-3">First name</span>
+            {createCustomerInput.name ? <DoneIcon color="success"/> :  <EditIcon /> } <input type="text" required name="name" value={createCustomerInput.name} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
           </div>
           <div>
-            <span className="label-text text-base font-medium text-slate-600">Last name *</span>
+            <span className="label-text text-base font-medium text-slate-600 mr-3">Last name</span>
+            {createCustomerInput.lastname ? <DoneIcon color="success"/> :  <EditIcon /> }
             <input type="text" required name="lastname" value={createCustomerInput.lastname} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
           </div>
           <div>
-            <span className="label-text text-base font-medium text-slate-600">Email *</span>
+            <span className="label-text text-base font-medium text-slate-600 mr-3">Email</span>
+            {createCustomerInput.email ? <DoneIcon color="success"/> :  <EditIcon /> }
             <input type="text" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
           </div>
           <div>
-            <span className="label-text text-base font-medium text-slate-600">Phone *</span>
+            <span className="label-text text-base font-medium text-slate-600 mr-3">Phone</span>
+            {createCustomerInput.phone ? <DoneIcon color="success"/> :  <EditIcon /> }
+
             <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
           </div>
 

@@ -4,15 +4,18 @@ import { useNavigate } from 'react-router-dom'
 import dayjs, { Dayjs } from 'dayjs';
 import axios from 'axios';
 
-import { StaticDatePicker } from '@mui/x-date-pickers';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { UserInputContext } from '../contexts/userInputs';
 import { checkForAvailability } from '../helperfunctions/checkforavailbility';
 import { IReceivedBookings, NewBooking } from '../models/Booking';
 import { API_URL, GET_ALL_BOOKINGS, RESTAURANT_ID } from '../constants/constants';
 import { get } from '../helperfunctions/get';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import GroupIcon from '@mui/icons-material/Group';
 
 const DateTimeInfo = () => {
-    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs('2022-04-17'))
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null>()
     const [selectedDataFormatted, setSelectedDataFormatted] = useState("")
     const [sixSelected, setSixSelected] = useState(false)
     const [nineSelected, setNineSelected] = useState(false)
@@ -23,12 +26,12 @@ const DateTimeInfo = () => {
     const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
 
 
-    const { addBookingDetails,  newBooking} = useContext(UserInputContext)
+    const { addBookingDetails } = useContext(UserInputContext)
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log("user input is updated")
+        if (!selectedDate) return
         const selecteDateIsoString = selectedDate?.toISOString()
         setSelectedDataFormatted(dayjs(selecteDateIsoString).format('YYYY-MM-DD'));
     }, [selectedDate])
@@ -61,6 +64,8 @@ const DateTimeInfo = () => {
         if (selectedDataFormatted) {
             fetchData()
         }
+        setSixSelected(false)
+        setNineSelected(false)
         setTimeBooked("")
     }, [selectedDataFormatted])
 
@@ -90,7 +95,7 @@ const DateTimeInfo = () => {
     const handleUserInput = () => {
         addBookingDetails(RESTAURANT_ID, selectedDataFormatted, timeBooked, +numberOfPeople)
         navigate("/contactinfo")
-    } 
+    }
 
     const formControl = () => {
         if (timeBooked && selectedDataFormatted && numberOfPeople) {
@@ -113,32 +118,47 @@ const DateTimeInfo = () => {
                         <img src="../../webp-img/Bleu horizon (1).webp" alt="Bleu Horizon Logo" />
                     </div>
                     <div className='flex flex-col justify-center'>
-                    <h4 className='text-4xl text-center'>Make your reservation today!</h4>
+                        <h4 className='text-4xl text-center'>Make your reservation today!</h4>
                     </div>
                 </div>
 
-                <div className='date-picker bg-white py-24 lg:w-[70%] px-20'>
-                    <StaticDatePicker value={selectedDate} onChange={
-                        (newValue) => setSelectedDate(newValue)
-                    }
-                        defaultValue={dayjs()}
-                    />
-                    <div className='time-buttons space-x-12'>
-                        {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
-                        {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+
+                <div className='date-picker bg-white py-24 lg:w-[70%] px-48'>
+                    <div className='mt-4'>
+                        <div className='mb-2'>{selectedDataFormatted ? <CalendarMonthIcon color="success" /> : <CalendarMonthIcon color="warning" />}</div>
+                        <DesktopDatePicker
+                            value={selectedDate || null}
+                            onChange={
+                                (newValue) => setSelectedDate(newValue)
+                            }
+                            label="Choose a date"
+                        />
                     </div>
 
-                    <select className="mt-12 mr-12 select select-bordered w-full max-w-xs font"
-                        onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
-                        <option disabled>How many poeple will be joining us?</option>
-                        <option value="">Choose an option</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                        <option value="5">Five</option>
-                        <option value="6">Six</option>
-                    </select>
+
+                    <div className='mt-14'>
+                        <div className='mb-2'>{timeBooked ? <AccessTimeIcon color="success" /> : <AccessTimeIcon color="warning" />}</div>
+                        <div className='time-buttons space-x-12'>
+                            {fullyBookedAtSix ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> : <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
+                            {fullyBookedAtNine ? <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> : <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>}
+                        </div>
+                    </div>
+
+                    <div className='mt-14 mb-7'>
+                        <div className='mb-2 mt-14'>{numberOfPeople ? <GroupIcon color="success" /> : <GroupIcon color="warning" />}</div>
+                        <select className=" mr-12 select select-bordered w-full max-w-xs font"
+                            onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
+                            <option value="" disabled>How many people will be joining us?</option>
+                            <option value="">Choose how many will be joining us</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">Four</option>
+                            <option value="5">Five</option>
+                            <option value="6">Six</option>
+                        </select>
+                    </div>
+
                     <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
                 </div>
 
