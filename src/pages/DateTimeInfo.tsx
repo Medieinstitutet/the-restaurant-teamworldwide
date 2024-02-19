@@ -7,7 +7,7 @@ import axios from 'axios';
 import { StaticDatePicker } from '@mui/x-date-pickers';
 import { UserInputContext } from '../contexts/userInputs';
 import { checkForAvailability } from '../helperfunctions/checkforavailbility';
-import { IReceivedBookings } from '../models/Booking';
+import { IReceivedBookings, NewBooking } from '../models/Booking';
 import { API_URL, GET_ALL_BOOKINGS, RESTAURANT_ID } from '../constants/constants';
 import { get } from '../helperfunctions/get';
 
@@ -23,7 +23,7 @@ const DateTimeInfo = () => {
     const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
 
 
-    const { addBookingDetails } = useContext(UserInputContext)
+    const { addBookingDetails,  newBooking} = useContext(UserInputContext)
 
     const navigate = useNavigate()
 
@@ -88,9 +88,9 @@ const DateTimeInfo = () => {
     }
 
     const handleUserInput = () => {
-        addBookingDetails("65c6199912ebb6ed53265ac6", selectedDataFormatted, timeBooked, +numberOfPeople)
+        addBookingDetails(RESTAURANT_ID, selectedDataFormatted, timeBooked, +numberOfPeople)
         navigate("/contactinfo")
-    }
+    } 
 
     const formControl = () => {
         if (timeBooked && selectedDataFormatted && numberOfPeople) {
