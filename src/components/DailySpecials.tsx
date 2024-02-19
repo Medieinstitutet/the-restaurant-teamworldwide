@@ -1,6 +1,7 @@
 import { motion, useAnimation } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import {useEffect } from 'react'
+import {useEffect, useState } from 'react'
+import { format } from 'date-fns'
 
     const variants = {
         hidden: {opacity: 0, y: 60 },
@@ -23,11 +24,24 @@ import {useEffect } from 'react'
             triggerOnce: true,
         });
     
-    
+    const [dailyImage, setDailyImage] = useState('');
+    type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+
     useEffect(() => {
         if (inView) {
             controls.start('visible');
         }
+    const dayOfWeek = format(new Date(), 'EEEE').toLowerCase() as DayOfWeek;
+    const imageMap: Record<DayOfWeek, string> = {
+        monday: '../../webp-img/daily-spec/13.webp',
+        tuesday: '../../webp-img/daily-spec/14.webp',
+        wednesday: '../../webp-img/daily-spec/15.webp',
+        thursday: '../../webp-img/daily-spec/16.webp',
+        friday: '../../webp-img/daily-spec/17.webp',
+        saturday: '../../webp-img/daily-spec/18.webp',
+        sunday: '../../webp-img/daily-spec/19.webp',
+    };
+        setDailyImage(imageMap[dayOfWeek]);
     }, [controls, inView]);
     
     
@@ -38,10 +52,14 @@ import {useEffect } from 'react'
         initial='hidden'
         animate={controls}
         variants={variants}
-      /*   transition={{ duration: 0.9 }} */
         >
-        <div> 
-        <img className="pb-10  w-full" src="../../webp-img/specials.webp" alt="" />
+        <div className='daily-container'> 
+        {dailyImage && (
+            <img 
+             className='pb-10 w-full'
+             src={dailyImage}
+             alt="Daily special image" />
+        )}
         </div>
         </motion.div>
     )
