@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { get } from '../helperfunctions/get'
 import { API_URL, EDIT_CUSTOMER, GET_CUSTOMER } from '../constants/constants'
 import { CustomerResponse, EditCustomer, ExisitingCustomer } from '../models/Customer'
@@ -10,7 +10,6 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { putCustomer } from '../helperfunctions/putCustomer'
-import { EditedBooking } from '../models/Booking'
 
 interface ICustomerInfo {
     customerID: string
