@@ -7,7 +7,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useState } from 'react';
 import { IUserInputContext, UserInputContext } from '../contexts/userInputs';
 import { NewBooking } from '../models/Booking';
-import dayjs from 'dayjs';
 import { ScrollRestoration } from 'react-router-dom';
 
 const Layout = () => {

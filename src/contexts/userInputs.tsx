@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import { NewBooking } from "../models/Booking";
-import dayjs, { Dayjs } from "dayjs";
 
 export interface IUserInputContext {
     newBooking: NewBooking,

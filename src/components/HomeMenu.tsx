@@ -17,7 +17,7 @@ const variants = {
 };
     
 
-export const Menu = () => {
+export const HomeMenu = () => {
     const controls = useAnimation();
     const [ref, inView] = useInView({
         threshold: 0.1,
@@ -37,8 +37,7 @@ useEffect(() => {
         initial='hidden'
         animate={controls}
         variants={variants}
-      /*   transition={{ duration: 0.9 }} */
-        >
+    >
         <div className="menu min-h-full bg-neutral-950">
             <h1 className="text-5xl text-neutral-50 text-center p-14">ON THE MENU</h1>
             <div className="menu-content">

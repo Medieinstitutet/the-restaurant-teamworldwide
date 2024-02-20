@@ -2,7 +2,6 @@
     position: fixed;
     top: 0;
     z-index: 99;
-    // background-color: transparent;
 
     .menu {
         background-color: rgba(0, 0, 0, 0.8);
@@ -17,19 +16,19 @@
                   color: #CFC1AF;
                   background-color: none ;
              }
-        a {
-            &:active {
-                background-color: none ;
-                color: white;
-                outline: none;
-            }
+            a {
+                &:active {
+                    background-color: none ;
+                    color: white;
+                    outline: none;
+                }
 
-            &:visited {
-                background-color:rgba(255, 255, 255, 0.8) ;
-                color: white;
-                
+                &:visited {
+                    background-color:rgba(255, 255, 255, 0.8) ;
+                    color: white;
+                    
+                }
             }
-          }
             }
     }
 }

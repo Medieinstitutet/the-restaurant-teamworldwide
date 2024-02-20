@@ -1,13 +1,13 @@
 import { DailySpecials } from '../components/DailySpecials'
 import { Hero } from '../components/Hero'
-import { Menu } from '../components/Menu'
+import { HomeMenu } from '../components/HomeMenu'
 import { OpeningHours } from '../components/OpeningHours'
 
 const HomePage = () => {
     return (
         <>
             <Hero />
-            <Menu />
+            <HomeMenu />
             <DailySpecials />
             <OpeningHours />
         </>

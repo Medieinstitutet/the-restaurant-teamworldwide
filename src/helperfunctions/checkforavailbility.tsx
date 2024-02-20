@@ -1,4 +1,3 @@
-import axios from "axios";
 import { IReceivedBookings } from "../models/Booking";
 
 export const checkForAvailability = (

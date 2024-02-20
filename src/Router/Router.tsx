@@ -1,7 +1,5 @@
 
-import {
-  createBrowserRouter,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
@@ -13,7 +11,6 @@ import UserContactInfo from "../pages/UserContactInfo";
 import AuthRoute from "../components/AuthRoute";
 import Login from "../pages/Login";
 import { MenuPage } from "../pages/MenuPage";
-
 
 export const router = createBrowserRouter([
   {
