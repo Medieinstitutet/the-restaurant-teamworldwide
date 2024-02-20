@@ -102,12 +102,6 @@ const DateTimeInfo = () => {
             setFieldsFilled(false)
         }
     }
-
-
-
-
-
-
     return (
         <>
             <div className="w-100% lg:flex sm:flex-row mt-16 p-7">
