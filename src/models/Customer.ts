@@ -21,13 +21,14 @@ export interface ICreateCustomerResponse {
 
 export class ExisitingCustomer {
     constructor (
-        public _id: string,
+        public id: string,
         public name: string,
         public lastname: string,
         public email: string,
         public phone: string
     ) {}
 };
+
 
 export interface EditCustomer {
     id: string;

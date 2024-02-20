@@ -6,6 +6,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { checkForAvailability } from "../helperfunctions/checkforavailbility";
 import { API_URL, DELETE_A_BOOKING, EDIT_A_BOOKING, GET_ALL_BOOKINGS, RESTAURANT_ID } from "../constants/constants";
 import AdminCustomer from "../components/AdminCustomer";
+import { toast } from "react-toastify";
 
 
 const AdminPage = () => {
@@ -48,8 +49,10 @@ const AdminPage = () => {
         `${API_URL}${DELETE_A_BOOKING}${id}`
       );
       setBookings(bookings.filter((booking) => booking._id !== id));
+      toast.success("Booking-deletion successfull!");
     } catch (error) {
       console.log(error);
+      toast.error("Booking-deletion unsuccessful!!" + error);
     }
     setEnableEdit(false)
   };
@@ -130,8 +133,10 @@ const AdminPage = () => {
           } return booking
         })
         setBookings(bookingUpdated)
+        toast.success("Booking updated successfully!");
       } catch (error) {
         error
+        toast.error("Booking-updated unsuccessfull!" + error);
       }
     }
     if (!editedBooking.date) {
