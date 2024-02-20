@@ -7,6 +7,8 @@ import { checkForAvailability } from "../helperfunctions/checkforavailbility";
 import { API_URL, DELETE_A_BOOKING, EDIT_A_BOOKING, GET_ALL_BOOKINGS, RESTAURANT_ID } from "../constants/constants";
 import AdminCustomer from "../components/AdminCustomer";
 import { toast } from "react-toastify";
+import { Navigate } from "react-router";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const AdminPage = () => {
@@ -18,9 +20,11 @@ const AdminPage = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [fullyBookedAtSix, setFullyBookedAtSix] = useState(false)
   const [fullyBookedAtNine, setFullyBookedAtNine] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchAllBookings = async () => {
+      setIsLoading(true)
       try {
         const response = await axios.get<IReceivedBookings[]>(
           `${API_URL}${GET_ALL_BOOKINGS}${RESTAURANT_ID}`
@@ -29,13 +33,12 @@ const AdminPage = () => {
           sortOrder === 'asc' ? dayjs(a.date).unix() - dayjs(b.date).unix() : dayjs(b.date).unix() - dayjs(a.date).unix()
         );
         setBookings(sortedBookings);
-        const allBookings = response.data;
-        setBookings(allBookings);
-        console.log(allBookings);
+        setIsLoading(false)
       } catch (error) {
-        console.log(error);
+        alert("oops there was an error fetching the bookings, please refresh the page" + error)
       }
     };
+
     fetchAllBookings();
   }, [sortOrder]);
 
@@ -51,7 +54,6 @@ const AdminPage = () => {
       setBookings(bookings.filter((booking) => booking._id !== id));
       toast.success("Booking-deletion successfull!");
     } catch (error) {
-      console.log(error);
       toast.error("Booking-deletion unsuccessful!!" + error);
     }
     setEnableEdit(false)
@@ -66,7 +68,6 @@ const AdminPage = () => {
   }
 
   const handleTimechange = (_id: string, selectedValue: string) => {
-    console.log("selectedvalue" + selectedValue)
     let newTime = selectedValue
     const bookingToEdit = bookings.find((booking) => booking._id === _id)
     if (bookingToEdit)
@@ -127,12 +128,12 @@ const AdminPage = () => {
             customerId: editedBooking.customerId,
           }
         )
-        const bookingUpdated = bookings.map((booking) => {
+        const bookingsUpdated = bookings.map((booking) => {
           if (booking._id === editedBooking._id) {
             return editedBooking
           } return booking
         })
-        setBookings(bookingUpdated)
+        setBookings(bookingsUpdated)
         toast.success("Booking updated successfully!");
       } catch (error) {
         error
@@ -153,13 +154,11 @@ const AdminPage = () => {
     setEditedBooking(new EditedBooking(id, RESTAURANT_ID, "", "18:00", 1, customerId))
     setEnableEdit(!enableEdit);
   };
-
-  useEffect(() => {
-    console.log(bookings);
-  }, [enableEdit]);
-
+ 
   return (
+    
     <div className="mt-16 min-h-screen bg-white admin">
+     {isLoading ? ( <div className="h-screen flex justify-center items-center"> <ClipLoader/> </div> ) : (
       <table className="min-w-full table-auto">
         <thead>
           <tr>
@@ -172,7 +171,7 @@ const AdminPage = () => {
             <th className="px-5 py-2">Customer ID</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
           {enableEdit ? (
             <tr key={editedBooking._id} className="border-t">
               <td className="px-5 py-2">
@@ -318,6 +317,7 @@ const AdminPage = () => {
             )}
         </tbody>
       </table>
+        )}
     </div>
   );
 };

@@ -11,28 +11,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { putCustomer } from '../helperfunctions/putCustomer'
 import { toast } from "react-toastify";
-
+import { modalStyle } from '../styles/modalstyle'
 
 interface ICustomerInfo {
     customerID: string
 }
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 const AdminCustomer = ({ customerID }: ICustomerInfo) => {
     const [isLoading, setIsLoading] = useState(false)
     const [customer, setCustomer] = useState<ExisitingCustomer>(new ExisitingCustomer("", "", "", "", ""))
-    const [customerEdit, setCustomerEdit] = useState<ExisitingCustomer>(new ExisitingCustomer("", "", "", "", ""))
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -41,46 +28,33 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
     }
     const handleClose = () => setOpen(false);
 
-
     const fetchCustomer = async (customerID: string) => {
         console.log(customerID)
         try {
-
             setIsLoading(true)
-
-            console.log("im fetching")
             const res = await get<CustomerResponse[]>(`${API_URL}${GET_CUSTOMER}${customerID}`)
-            console.log(JSON.stringify(res))
             const customer = res.data[0]
-            console.log(JSON.stringify(customer))
             setCustomer(new ExisitingCustomer(customer._id, customer.name, customer.lastname, customer.email, customer.phone))
-            console.log(typeof (customerID) + "is this")
-            console.log("this is custmomer id" + customer._id)
-
             setIsLoading(false)
-            setCustomerEdit(new ExisitingCustomer(customer._id, customer.name, customer.lastname, customer.email, customer.phone))
         } catch (error) {
             console.log(error)
         }
     }
-
-
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCustomerEdit({ ...customerEdit, [e.target.name]: e.target.value })
-        console.log(JSON.stringify("customer edit is " + JSON.stringify(customerEdit)))
+        setCustomer({ ...customer, [e.target.name]: e.target.value })
     }
 
     const onSubmit = async () => {
         try {
-            const res = await putCustomer<EditCustomer>(`${API_URL}${EDIT_CUSTOMER}${customerEdit.id}`, 
+            await putCustomer<EditCustomer>(`${API_URL}${EDIT_CUSTOMER}${customer.id}`, 
             {
-                "id": customerEdit.id,
-                "name": customerEdit.name,
-                "lastname": customerEdit.lastname,
-                "email": customerEdit.email,
-                "phone": customerEdit.phone
+                "id": customer.id,
+                "name": customer.name,
+                "lastname": customer.lastname,
+                "email": customer.email,
+                "phone": customer.phone
               }
-
             )
             toast.success("Customer details updated successfully!")
         }
@@ -108,11 +82,9 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
                     },
                 }}
             >
-                {!customer ? <ClipLoader /> :
+                {isLoading ? <ClipLoader /> :
                     <Fade in={open}>
-
-                        <Box sx={style}>
-
+                        <Box sx={modalStyle}>
                             <Typography id="transition-modal-title" variant="h6" component="h2">
                                 Details associated with your booking
                             </Typography>
@@ -135,11 +107,8 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
                                 </label>
                                 <Button onClick={onSubmit} children={'Change'} size={'medium'} color={'primary'} />
                                 <Button onClick={handleClose} children={'Cancel'} size={'medium'} color={'error'} />
-
                             </Typography>
-
                         </Box>
-
                     </Fade>
                 }
             </Modal>
