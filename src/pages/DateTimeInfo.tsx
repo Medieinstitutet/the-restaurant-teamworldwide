@@ -160,8 +160,8 @@ const DateTimeInfo = () => {
                             <option value="6">Six</option>
                         </select>
                     </div>
-
-                    <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button>
+                    {/* <button disabled={!fieldsFilled} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary' onClick={() => handleUserInput()}>Next</button> */}
+                    <Button children={'Next'} size={'md'} color={'light'} disabled={!fieldsFilled} event={() => handleUserInput()} />
                 </div>
             </div>
         </>

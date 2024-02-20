@@ -8,7 +8,7 @@ interface IBtnProps {
     selected?: boolean,
     size: "md" | "lg" | "xl";
     color: "light" | "dark" | "transparent";
-    event?: () => void;
+    event?: (e: any) => void;
 }
 
 const style = {

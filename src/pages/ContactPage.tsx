@@ -1,3 +1,5 @@
+import { Button } from "../components/Button"
+
 const ContactPage = () => {
   return (
     <div className='contact min-h-screen mt-16 pt-20 pb-44 flex flex-col items-center gap-10'>
@@ -19,7 +21,7 @@ const ContactPage = () => {
             <span className="label-text">Message *</span>
             <textarea className="textarea textarea-bordered w-full max-w-full mt-2" required/>
           </div>
-          <button className='btn px-8 w-full bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Send</button>
+          <Button children={"Send"} size={"md"} className="w-full" color={"light"} />
         </form>
     </div>
   )
