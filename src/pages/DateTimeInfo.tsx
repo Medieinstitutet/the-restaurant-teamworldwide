@@ -105,12 +105,6 @@ const DateTimeInfo = () => {
             setFieldsFilled(false)
         }
     }
-
-
-
-
-
-
     return (
         <>
             <div className="w-100% lg:flex sm:flex-row mt-16 p-7">
@@ -125,9 +119,7 @@ const DateTimeInfo = () => {
 
                 <div className='date-picker bg-white py-24 lg:w-[70%] px-48 flex flex-col justfy-center gap-12'>
                     <div className='flex items-center gap-5'>
-                        {/* <div className='mb-2'> */}
                             {selectedDataFormatted ? <CalendarMonthIcon color="success" /> : <CalendarMonthIcon color="warning" />}
-                        {/* </div> */}
                         <DesktopDatePicker
                             value={selectedDate || null}
                             onChange={
@@ -140,34 +132,25 @@ const DateTimeInfo = () => {
                     <div className=''>
                         <div className='flex items-center gap-5'>
                             {timeBooked ? <AccessTimeIcon color="success" /> : <AccessTimeIcon color="warning" />}
-                            {/* <div className='time-buttons space-x-12'> */}
                             <div className='time-buttons'>
                                 {fullyBookedAtSix ? 
-                                    // <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button> 
                                     <Button children={'Six o clock'} disabled={true} size={'md'} color={'transparent'} />
                                     : 
-                                    // <button onClick={() => handleSixSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Six o clock</button>}
                                     <Button children={'Six o clock'} selected={sixSelected ? true : false}  disabled={false} event={() => handleSixSelected()} size={'md'} color={'transparent'} />
                                 }
                                 {fullyBookedAtNine ?
-                                    // <button disabled className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button> 
                                     <Button children={'Nine o clock'} disabled={true} size={'md'} color={'transparent'} />
                                     : 
-                                    // <button onClick={() => handleNineSelected()} className='btn self-center px-8 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary'>Nine o clock</button>
                                     <Button children={'Nine o clock'}  selected={nineSelected ? true : false} disabled={false} event={() => handleNineSelected()} size={'md'} color={'transparent'} />
                                 }
                             </div>
-                            {/* </div> */}
                         </div>
                     </div>
 
                     <div className='flex items-center gap-5'>
-                        {/* <div className='mb-2 mt-14'> */}
                             {numberOfPeople ? <GroupIcon color="success" /> : <GroupIcon color="warning" />}
-                        {/* </div> */}
                         <select className="select select-bordered"
                             onChange={(event) => handleNumberOfPeopleChange(event.target.value)}>
-                            {/* <option value="" disabled>How many people will be joining us?</option> */}
                             <option value="">Choose how many will be joining us</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>

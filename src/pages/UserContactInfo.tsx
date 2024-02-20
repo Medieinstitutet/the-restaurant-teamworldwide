@@ -26,6 +26,7 @@ const UserContactInfo = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCreateCustomerInput({ ...createCustomerInput, [e.target.name]: e.target.value })
+    formControl()
     updateContextWithUserInput()
   }
 
@@ -123,13 +124,13 @@ const UserContactInfo = () => {
           <div>
             <span className="label-text text-base font-medium text-slate-600 mr-3">Email</span>
             {createCustomerInput.email ? <DoneIcon color="success"/> :  <EditIcon /> }
-            <input type="text" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
+            <input type="email" required name="email" value={createCustomerInput.email} onChange={handleNameChange} className="input input-bordered w-full max-w-full mt-2" />
           </div>
           <div>
             <span className="label-text text-base font-medium text-slate-600 mr-3">Phone</span>
             {createCustomerInput.phone ? <DoneIcon color="success"/> :  <EditIcon /> }
 
-            <input name="phone" type="tel" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
+            <input name="phone" type="tel" pattern="[0-9 ()+-]*" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
           </div>
 
           <div className=''>
