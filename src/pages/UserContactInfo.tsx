@@ -10,8 +10,13 @@ import { postBooking } from '../helperfunctions/postBooking';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
-
-
+import { Button } from '../components/Button';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import GroupIcon from '@mui/icons-material/Group';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import CallIcon from '@mui/icons-material/Call';
 
 const UserContactInfo = () => {
 
@@ -140,27 +145,41 @@ const UserContactInfo = () => {
               checked={isAgreed}
               onChange={handleCheckBox} />
             <label className='ml-2' htmlFor='agree' id='agree-txt'>I acknowledge that we collect and store customer information.</label>
-            <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center mt-6 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button>
+            {/* <button onClick={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className="btn w-full self-center mt-6 bg-primary hover:bg-neutral-50 text-neutral-50 hover:text-primary border-primary">Confirm Booking</button> */}
+            <Button children={'Confirm Booking'} size={'md'} color={'light'} event={(e) => saveContextAndSend(e)} disabled={!fieldsFilled} className='w-full mt-6'/>
           </div>
           <dialog id="my_modal_4" className="modal">
 
             {!bookingId ? <ClipLoader /> :
-              <div className="modal-box w-11/12 max-w-5xl">
-                <h3 className="font-bold text-lg mb-12">Booking confirmation</h3>
-                <p>please make a note of your booking ID for cancellations or change: {bookingId} </p>
-                <div>
-                  <p className="py-4">Time booked: {newBooking.time}</p>
-                  <p className="py-4">Date booked: {newBooking.date}</p>
-                  <p className="py-4">Number of guests: {newBooking.numberOfGuests}</p>
-                  <p className="py-4">Name: {newBooking.customer.name}</p>
-                  <p className="py-4">Last name: {newBooking.customer.lastname}</p>
-                  <p className="py-4">Contact email: {newBooking.customer.email}</p>
-                  <p className="py-4">Contact number: {newBooking.customer.phone}</p>
-                </div>
-                <div className="modal-action">
+              <div className="modal-box min-w-fit">
+                <img src="src\assets\Bleu horizon (1).png" alt="" />
+                <div className='modal-box__right'>
+                  <h3 className="font-bold text-2xl">Booking confirmation</h3>
+                  {/* <div className='booking-id'>
+                    <p>please make a note of your booking ID for cancellations or change:</p>
+                    <p>{bookingId}</p>
+                  </div> */}
+                  <div className='modal-box__text'>
+                    {/* <p className="">Time booked: {newBooking.time}</p> */}
+                    <p className="detail"><AccessTimeIcon />{newBooking.time}</p>
+                    {/* <p className="">Date booked: {newBooking.date}</p> */}
+                    <p className="detail"><CalendarMonthIcon />{newBooking.date}</p>
+                    {/* <p className="">Number of guests: {newBooking.numberOfGuests}</p> */}
+                    <p className="detail"><GroupIcon />{newBooking.numberOfGuests}</p>
+                    {/* <p className="">Name: {newBooking.customer.name}</p>
+                    <p className="">Last name: {newBooking.customer.lastname}</p> */}
+                    <p className="detail"><AccountCircleIcon />{newBooking.customer.name} {newBooking.customer.lastname}</p>
+                    {/* <p className="">Contact email: {newBooking.customer.email}</p> */}
+                    <p className="detail"><MailIcon />{newBooking.customer.email}</p>
+                    {/* <p className="">Contact number: {newBooking.customer.phone}</p> */}
+                    <p className="detail"><CallIcon />{newBooking.customer.phone}</p>
+                  </div>
+                  {/* <div className="modal-action"> */}
                   <form method="dialog">
-                    <Link to={"/"}><button className="btn">Close</button></Link>
+                    {/* <Link to={"/"}><button className="btn">Close</button></Link> */}
+                    <Button children={'Close'} size={'md'} color={'light'} linkTo='/'/>
                   </form>
+                  {/* </div> */}
                 </div>
               </div>
             }
