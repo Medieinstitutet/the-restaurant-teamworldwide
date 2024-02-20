@@ -10,6 +10,8 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { putCustomer } from '../helperfunctions/putCustomer'
+import { toast } from "react-toastify";
+
 
 interface ICustomerInfo {
     customerID: string
@@ -70,10 +72,9 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
 
     const onSubmit = async () => {
         try {
-            const res = await putCustomer<EditCustomer>(`${API_URL}${EDIT_CUSTOMER}${customerEdit._id}`, 
+            const res = await putCustomer<EditCustomer>(`${API_URL}${EDIT_CUSTOMER}${customerEdit.id}`, 
             {
-                //ignore this for now
-                "id": customerEdit._id,
+                "id": customerEdit.id,
                 "name": customerEdit.name,
                 "lastname": customerEdit.lastname,
                 "email": customerEdit.email,
@@ -81,10 +82,11 @@ const AdminCustomer = ({ customerID }: ICustomerInfo) => {
               }
 
             )
-            console.log("this is res data putcust" + res.data)
+            toast.success("Customer details updated successfully!")
         }
         catch (Err) {
             console.log(Err)
+            toast.error("Customer details updated unsuccessfully!" + Err)
         }
         handleClose()
     }

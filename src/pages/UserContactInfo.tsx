@@ -16,6 +16,9 @@ import GroupIcon from '@mui/icons-material/Group';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import CallIcon from '@mui/icons-material/Call';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const UserContactInfo = () => {
 
@@ -59,8 +62,10 @@ const UserContactInfo = () => {
       const bookingResponse = await postBooking<IConfirmedBooking>(`${API_URL}${CREATE_BOOKING}`, new NewBooking(RESTAURANT_ID, newBooking.date, newBooking.time, Number(newBooking.numberOfGuests), newBooking.customer))
       const bookingID = bookingResponse.data.insertedId
       setBookingId(bookingID)
+      toast.success("Booking Successfull!");
     } catch (error) {
       console.log(error)
+      toast.error("Booking unsuccessfull error:" + error);
     }
   }
 
@@ -134,7 +139,7 @@ const UserContactInfo = () => {
             <span className="label-text text-base font-medium text-slate-600 mr-3">Phone</span>
             {createCustomerInput.phone ? <DoneIcon color="success"/> :  <EditIcon /> }
 
-            <input name="phone" type="tel" pattern="[0-9 ()+-]*" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
+            <input name="phone" type='tel' pattern="[0-9]*" required value={createCustomerInput.phone} onChange={handleNameChange} className="input textarea-bordered w-full max-w-full mt-2" />
           </div>
 
           <div className=''>

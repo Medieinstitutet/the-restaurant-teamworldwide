@@ -8,6 +8,9 @@ import { useState } from 'react';
 import { IUserInputContext, UserInputContext } from '../contexts/userInputs';
 import { NewBooking } from '../models/Booking';
 import { ScrollRestoration } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Layout = () => {
     //state for userinput
@@ -27,6 +30,7 @@ const Layout = () => {
 
     return (
         <div className='font-serif'>
+            
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <UserInputContext.Provider value={userInputState}>
                     <ScrollRestoration/>
@@ -35,6 +39,7 @@ const Layout = () => {
                     <Footer />
                 </UserInputContext.Provider>
             </LocalizationProvider>
+            <ToastContainer />
         </div >
     )
 }
