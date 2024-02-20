@@ -6,14 +6,14 @@ import {useEffect } from 'react'
 
 
 const variants = {
-    hidden: {opacity: 0, y: 60 },
+    hidden: {opacity: 0, y: 40 },
     visible: {
         opacity: 1,
         y: 0,
         transition: {
             type:'tween',
             ease: 'easeInOut',
-            duration: 3.8,
+            duration: 1.8,
         }
     },
 };
