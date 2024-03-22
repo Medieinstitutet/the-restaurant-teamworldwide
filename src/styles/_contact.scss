@@ -1,0 +1,34 @@
+.booking-background {
+    background: url(src/assets/aliona-gumeniuk-GAauSStia3s-unsplash.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.contact {
+    background: url(src/assets/brooke-lark-t7wg7BJU2-s-unsplash.jpg);
+    background-size: cover;
+    background-position: center;
+
+    form {
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+    
+    &-info {
+        background-color:  rgba(255, 255, 255, 0.8);
+        background-size: cover;
+        background-position: center;
+        
+        
+        form {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    
+        input {
+            padding: 1.5rem;
+        }
+    
+        button:disabled {
+            background-color: #f0f0f0;
+        }
+    
+    }
+}

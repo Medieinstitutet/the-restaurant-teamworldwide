@@ -1,0 +1,86 @@
+.contact-info form {
+    background: none;
+}
+
+.modal-box {
+    padding: 0;
+    margin: 3rem;
+    display: flex;
+
+    span {
+        font-weight: 700;
+    }
+
+    p {
+        font-family: var(--font-serif);
+        font-size: 1.1rem;
+    }
+
+    &__right {
+        padding: 2rem 6rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1.2rem;
+        
+        form {
+            align-self: flex-end;
+        }
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        gap: 1.3rem;
+
+        .detail {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .date-picker {
+        margin-top: 2rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .time-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        .btn:last-of-type {
+            margin-left: 0;
+        }
+    }
+
+    .select {
+       width: 100%;
+    }
+
+    .modal-box {
+        margin: 2rem;
+
+        &__right {
+            gap: 2rem;
+        }
+        
+        img {
+            display: none;
+        }
+
+        form {
+            align-self: center;
+        }
+
+    }
+}

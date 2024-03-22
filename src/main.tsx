@@ -1,10 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
+import { RouterProvider } from 'react-router'
+import { router } from './Router/Router.tsx'
+import { initializeApp } from "firebase/app";
+import { config } from './config/config.ts'
+
+initializeApp(config.firebaseConfig);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )

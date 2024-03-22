@@ -1,0 +1,44 @@
+.admin {
+    td {
+        text-align: center;
+    }
+
+    select {
+        background-image: block;
+        
+        &:disabled {
+            font-size: 1rem;
+            background-color:transparent;
+            background-image: none;
+            color: #222;
+            border: transparent;
+            opacity: 1;
+            padding: 0;
+        }
+    }
+    
+    .date-picker {
+        input {
+            font-family: var(--font-serif);
+        }
+
+        .Mui-disabled {
+            .MuiOutlinedInput-notchedOutline {
+                border: none;
+            }
+
+            input {
+                color: #222;
+                -webkit-text-fill-color: #222;
+                text-align: center;
+            }
+
+            button {
+                display: none;
+            }
+        }
+
+    }
+
+}
+
